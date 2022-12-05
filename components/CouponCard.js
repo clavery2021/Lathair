@@ -18,8 +18,9 @@ const CouponCard = ({ data } ) => {
         margin: SIZES.base,
         ...SHADOWS.dark
     }}>
-        
-        <View style={{ width: "100%", height: 250 }}>
+        {/* Width at 100% was not working for section list 350 is working on an iphone 14 
+        but may not work for other devices */}
+        <View style={{ width: 350, height: 250 }}>
             <Image
                 source={data.image}
                 resizeMode="cover"
