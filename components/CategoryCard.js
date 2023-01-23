@@ -1,14 +1,12 @@
-import { View, Text, Image, StatusBar} from 'react-native'
+import { View, Image} from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { urlFor } from '../sanity';
-import { COLORS, SIZES, SHADOWS, assets } from "../constants";
+import { COLORS, SIZES, SHADOWS } from "../constants";
 import { CouponTitle, SubInfo } from './CouponInfo';
 
-import { CircleButton, RectButton } from './Button';
-// import { SubInfo, EthPrice, NFTTitle  } from './SubInfo';
+import { RectButton } from './Button';
 
-
-const CouponCard = ({ data } ) => {
+const CategoryCard = ({ data } ) => {
     const navigation = useNavigation();
 
   return (
@@ -20,10 +18,8 @@ const CouponCard = ({ data } ) => {
         margin: SIZES.base,
         ...SHADOWS.dark
     }}>
-        {/* Width at 100% was not working for section list 350 is working on an iphone 14 
-        but may not work for other devices */}
-        <View style={{ width: 375, height: 250 }}>
-            {/* <CircleButton imgUrl={assets.heart} right={10} top={10} /> */}
+        <View style={{ width: "100%", height: 280 }}>
+        
             <Image 
             source={{
               uri: urlFor(data.image.asset._ref).url() 
@@ -42,20 +38,19 @@ const CouponCard = ({ data } ) => {
       <View style={{ width: "100%", padding: SIZES.font }}>
         <CouponTitle
           title={data.title}
-          subTitle={data.creator}
+          subTitle={data.description}
           titleSize={SIZES.large}
           subTitleSize={SIZES.small}
         />
          <View style={{
            marginTop: SIZES.font,
-           flexDirection: "row",
-           justifyContent: "space-between",
            alignItems: "center",
          }}>
           <RectButton 
             minWidth={120}
             fontSize={SIZES.font}
-            // handlePress={() => navigation.navigate("CouponTempDetails", { data }) }
+            handlePress={() => navigation.navigate("CouponTempDetails", { data }) }
+            text= "Select Occasion"
             />
          </View>
       </View>
@@ -63,4 +58,4 @@ const CouponCard = ({ data } ) => {
   )
 }
 
-export default CouponCard
+export default CategoryCard

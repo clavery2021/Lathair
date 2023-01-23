@@ -99,7 +99,6 @@ export const SubInfo = () => {
         width: '100%',
         paddingHorizontal: SIZES.font,
         marginTop: -SIZES.extraLarge,
-        //Needs updated
         marginLeft: 240,
         flexDirection: "row",
         justifyContent: 'space-between'
