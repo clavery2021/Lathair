@@ -2,41 +2,26 @@ import { Text, View, SafeAreaView, FlatList, ScrollView, SectionList } from "rea
 import { useState, useEffect } from "react";
 import { COLORS, NFTData } from "../constants";
 import FocusedStatusBar from "../components/FocusedStatusBar";
-import sanityClient from "../sanity";
-import CategoryCard from "../components/CategoryCard";
+import CouponCard from "../components/CouponCard";
 
-const Home = () => {
-  const [couponCategories, setCouponCategories] = useState([]);
+const CouponTemplates = ({ route }) => {
+  const { data } = route.params;
 
-  useEffect(() => {
-    sanityClient.fetch(
-      `*[_type == "category"]{
-        ...,
-        coupon[] -> {
-          ...
-        }
-      }`
-    ).then((data) => {
-      setCouponCategories(data);
-    });
-  }, []);
-
-  //Change backgroun colour based on occasion
-  
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <FocusedStatusBar backgroundColor={COLORS.primary} />
       <View style={{ flex: 1 }}>
         <View style={{ zIndex: 0 }}>
-          <FlatList
-            data={couponCategories}
+        <FlatList
+            data={data.coupon}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) =>
-              <CategoryCard
+            //Warning: Each child in a list should have a unique "key"
+              <CouponCard
                 data={item}
               />
             }
-          />
+        />
         </View>
         <View style={{
           position: 'absolute',
@@ -54,4 +39,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default CouponTemplates

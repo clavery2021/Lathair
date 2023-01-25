@@ -1,7 +1,7 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from 'expo-font';
-import CouponTempDetails from "./screens/CouponTempDetails";
+import CouponTemplates from "./screens/CouponTemplates";
 import Home from "./screens/Home";
 
 const Stack = createNativeStackNavigator();
@@ -31,7 +31,7 @@ const App = () => {
         screenOptions={{ headerShown: false }}
         initialRouteName="Home">
         <Stack.Screen name="Home" component={Home}/>
-        <Stack.Screen name="CouponTempDetails" component={CouponTempDetails}/>
+        <Stack.Screen name="CouponTemplates" component={CouponTemplates}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -46,7 +46,8 @@ const CategoryCard = ({ data }) => {
                     <RectButton
                         minWidth={120}
                         fontSize={SIZES.font}
-                        handlePress={() => navigation.navigate("CouponTempDetails", { data })}
+                        //Only want the category that has been selected
+                        handlePress={() => navigation.navigate("CouponTemplates", { data })}
                         text="Select Occasion"
                     />
                 </View>
