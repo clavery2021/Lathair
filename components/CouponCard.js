@@ -47,7 +47,7 @@ const CouponCard = ({ data }) => {
           <RectButton
             minWidth={120}
             fontSize={SIZES.font}
-            handlePress={() => navigation.navigate("CouponTempDetails", { data })}
+            handlePress={() => navigation.navigate("Coupons", { data })}
             // text={`Select this `{data.title} `template`}
             text="Select this template"
           />

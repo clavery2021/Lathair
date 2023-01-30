@@ -1,27 +1,30 @@
-import { View, SafeAreaView, FlatList, TouchableOpacity } from "react-native";
+import { Text, View, SafeAreaView, FlatList, ScrollView, SectionList } from "react-native";
+
+import MessageCouponCard from "../components/MessageCouponCard";
 import { COLORS } from "../constants";
-import CouponCard from "../components/CouponCard";
-import { useState } from "react";
+import { urlFor } from '../sanity';
 
-const CouponTemplates = ({ route }) => {
-  const { data } = route.params;
-  const [isPressed, setIsPressed] = useState(false);
+const Coupons = ({ route } ) => {
+    //for testing 
+    const { data } = route.params;
+    console.log(urlFor(data.image.asset._ref).url())
+    //Need x6 or so coupons of the same template
+    //Which includes a msg
+    //Custmo msg in the voucher
 
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
+    return (
+      <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
         <View style={{ zIndex: 0 }}>
         <FlatList
-            data={data.coupon}
+            data={data.couponMessage}
             keyExtractor={(item) => item.id}
+            // numColumns={2}
             renderItem={({ item }) =>
             //Warning: Each child in a list should have a unique "key"
-        
-              <CouponCard
+              <MessageCouponCard
                 data={item}
               />
-              
-              
             }
         />
         </View>
@@ -38,7 +41,7 @@ const CouponTemplates = ({ route }) => {
         </View>
       </View>
     </SafeAreaView>
-  )
+    )
 }
 
-export default CouponTemplates
+export default Coupons

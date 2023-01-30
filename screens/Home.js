@@ -13,8 +13,10 @@ const Home = () => {
       `*[_type == "category"]{
         ...,
         coupon[] -> {
-          ...
-        }
+          ...,
+          couponMessage[] -> 
+            {...,}
+        },
       }`
     ).then((data) => {
       setCouponCategories(data);

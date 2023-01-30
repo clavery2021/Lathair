@@ -15,12 +15,6 @@ export default defineType({
       title: 'Description',
       type: 'string',
     }),
-    // defineField({
-    //   name: 'couponMessage',
-    //   title: 'Title',
-    //   type: 'string',
-    //   //Message schema
-    // }),
     defineField({
       name: 'price',
       title: 'Price',
@@ -47,19 +41,11 @@ export default defineType({
       title: 'Image',
       type: 'image',
     }),
-  
-
+    defineField({
+      name: 'couponMessage',
+      title: 'Coupon With Message',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'couponMessage' }] }]
+    })
   ],
-
-  // preview: {
-  //   select: {
-  //     title: 'title',
-  //     author: 'author.name',
-  //     media: 'mainImage',
-  //   },
-  //   prepare(selection) {
-  //     const {author} = selection
-  //     return {...selection, subtitle: author && `by ${author}`}
-  //   },
-  // },
 })
