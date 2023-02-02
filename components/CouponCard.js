@@ -18,7 +18,6 @@ const CouponCard = ({ data }) => {
       ...SHADOWS.dark
     }}>
       <View style={{ width: "100%", height: 250 }}>
-        {/* <CircleButton imgUrl={assets.heart} right={10} top={10} /> */}
         <Image
           source={{
             uri: urlFor(data.image.asset._ref).url()

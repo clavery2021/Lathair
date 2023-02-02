@@ -4,6 +4,9 @@ import { useFonts } from 'expo-font';
 import Coupons from "./screens/Coupons";
 import CouponTemplates from "./screens/CouponTemplates";
 import Home from "./screens/Home";
+import { Provider } from "react-redux";
+import { store } from "./store";
+import Checkout from "./screens/Checkout";
 
 const Stack = createNativeStackNavigator();
 
@@ -28,13 +31,16 @@ const App = () => {
 
   return (
     <NavigationContainer theme={theme}>
-      <Stack.Navigator 
-        screenOptions={{ headerShown: false }}
-        initialRouteName="Home">
-        <Stack.Screen name="Home" component={Home}/>
-        <Stack.Screen name="CouponTemplates" component={CouponTemplates}/>
-        <Stack.Screen name="Coupons" component={Coupons}/>
-      </Stack.Navigator>
+      <Provider store={store}>
+        <Stack.Navigator 
+          screenOptions={{ headerShown: false }}
+          initialRouteName="Home">
+          <Stack.Screen name="Home" component={Home}/>
+          <Stack.Screen name="CouponTemplates" component={CouponTemplates}/>
+          <Stack.Screen name="Coupons" component={Coupons}/>
+          <Stack.Screen name="Checkout" component={Checkout}/>
+        </Stack.Navigator>
+      </Provider>
     </NavigationContainer>
   );
 }
