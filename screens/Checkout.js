@@ -22,7 +22,26 @@ const Checkout = () => {
     
 return (
     <SafeAreaView>     
-         {items?.map((item, index) => (
+        <View style = {{ flex:-1, backgroundColor: "white"}} >
+            <View style = {{ flex:-1, backgroundColor: "gray"}} >
+                <View style = {{ padding: 5, border: "bold", borderColor: "red", backgroundColor: "white"}} >
+                    <View>
+                        <Text style={{ fontSize: "20", fontStyle: "bold", text: "center"}}>Basket</Text> 
+                        <Text className="text-center text-gray-400">
+                            {/* {restaurant.title} */}
+                        </Text>
+                    </View>
+
+                    <TouchableOpacity
+                        // onPress={navigation.goBack}
+                        className="rounded-full bg-gray-100 absolute top-3 right-5"
+                        >
+                            {/* <XCircleIcon color="#00CCBB" height={50} width={50} /> */}
+                        </TouchableOpacity>
+                </View> 
+            </View>
+        
+         {/* {items?.map((item, index) => (
             <View key={index}>
                 <Text>Coupon Title : {item.title}</Text>
                 <View style={{ width: "100%", height: 250 }}>
@@ -40,7 +59,8 @@ return (
                     />
                 </View>
           </View>
-        ))}
+        ))} */}
+        </View>
     </SafeAreaView>
 
 )
