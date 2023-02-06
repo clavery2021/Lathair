@@ -36,6 +36,7 @@ const Home = () => {
             renderItem={({ item }) =>
               <CategoryCard
                 data={item}
+                key={item.id}
               />
             }
           />

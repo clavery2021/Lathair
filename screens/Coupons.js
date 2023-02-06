@@ -7,7 +7,6 @@ import { urlFor } from '../sanity';
 const Coupons = ({ route } ) => {
     //for testing 
     const { data } = route.params;
-    console.log(urlFor(data.image.asset._ref).url())
     //Need x6 or so coupons of the same template
     //Which includes a msg
     //Custmo msg in the voucher
@@ -21,8 +20,8 @@ const Coupons = ({ route } ) => {
             keyExtractor={(item) => item.id}
             // numColumns={2}
             renderItem={({ item }) =>
-            //Warning: Each child in a list should have a unique "key"
               <MessageCouponCard
+               key={item.id}
                 data={item}
               />
             }

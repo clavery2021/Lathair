@@ -14,10 +14,9 @@ const CouponTemplates = ({ route }) => {
         <FlatList
             data={data.coupon}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) =>
-            //Warning: Each child in a list should have a unique "key"
-        
+            renderItem={({ item }) =>        
               <CouponCard
+                key={item.id}
                 data={item}
               />
               

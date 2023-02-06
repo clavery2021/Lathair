@@ -22,21 +22,21 @@ export const basketSlice = createSlice({
         // },
         removeFromBasket: (state, action) => {
             const index = state.items.findIndex(
-                (item) => item.id === action.payload.id
+              (item) => item.id === action.payload.id
             );
-
+          
             let newBasket = [...state.items];
-
+          
             if (index >= 0) {
-                newBasket.splice(index, 1);
+              newBasket.splice(index, 1);
             } else {
-                console.warn(
-                    `Can't remove coupon (id: ${action.payload.id}). Not in basket`
-                )
+              console.warn(
+                `Can't remove coupon (id: ${action.payload.id}). Not in basket`
+              );
             }
-
+          
             state.items = newBasket;
-        },
+          }
     },
 });
 
