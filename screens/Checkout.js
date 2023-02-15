@@ -22,6 +22,8 @@ const Checkout = () => {
     
   const changeSingleCoupon = (key) => {
     dispatch(removeFromBasket({ id: key }))
+
+    //This deleted each coupon 1 by 1 without going back?
     navigation.goBack
 }
     

@@ -1,12 +1,16 @@
 import { Text, View, SafeAreaView, FlatList, ScrollView, SectionList } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { COLORS, NFTData } from "../constants";
 import FocusedStatusBar from "../components/FocusedStatusBar";
 import sanityClient from "../sanity";
 import CategoryCard from "../components/CategoryCard";
+import AuthContext from "../contexts/Auth";
 
 const Home = () => {
   const [couponCategories, setCouponCategories] = useState([]);
+  const { userId } = useContext(AuthContext);
+
+  console.log(userId);
 
   useEffect(() => {
     sanityClient.fetch(
@@ -22,6 +26,7 @@ const Home = () => {
       setCouponCategories(data);
     });
   }, []);
+
 
   //Change backgroun colour based on occasion
   
