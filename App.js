@@ -38,7 +38,6 @@ const App = () => {
   });
 
   const [userId, setUserId] = useState("");
-  console.log(userId);
 
 //   useEffect(() => {
 //     const connectUser = async () => {

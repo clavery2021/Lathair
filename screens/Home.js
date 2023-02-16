@@ -10,8 +10,6 @@ const Home = () => {
   const [couponCategories, setCouponCategories] = useState([]);
   const { userId } = useContext(AuthContext);
 
-  console.log(userId);
-
   useEffect(() => {
     sanityClient.fetch(
       `*[_type == "category"]{
@@ -26,8 +24,6 @@ const Home = () => {
       setCouponCategories(data);
     });
   }, []);
-
-
   //Change backgroun colour based on occasion
   
   return (

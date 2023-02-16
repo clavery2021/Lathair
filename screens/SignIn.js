@@ -1,60 +1,112 @@
-import React, { useContext, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { View, TextInput, StyleSheet, Pressable, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useChatContext } from "stream-chat-expo";
+import { COLORS } from "../constants";
 import AuthContext from "../contexts/Auth";
 
 const SignIn = () => {
-  const [username, setUsername] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [signUpData, setSignUpData] = useState({
+    userName: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [signInData, setSignInData] = useState({
+    userName: "",
+    password: "",
+  });
+
+  const validatePassword = (password) => {
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+    return passwordPattern.test(password);
+  };
 
   const { setUserId } = useContext(AuthContext);
 
   const { client } = useChatContext();
 
-  const connectUser = async (username: string, fullName: string) => {
+  const connectUser = async (userName: string, password: string) => {
     await client.connectUser(
       {
-        id: username,
-        name: fullName,
+        id: userName,
+        password: password,
       },
-      client.devToken(username)
+      //will need to change to jwt
+      client.devToken(userName)
     );
-    setUserId(username);
+    //just setting the name atm but
+    //I will create an object so I can access email, name, etc anywhere in the app
+    setUserId(userName);
   };
 
-  const signUp = () => {
-    connectUser(username, fullName);
+  const signUp = useCallback(() => {
+  
+    if (!validatePassword(signUpData.password)) {
+      alert("Please enter a password that contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one number.");
+      return;
+    }
+    
+    if (signUpData.password !== signUpData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    connectUser(signUpData.userName, signUpData.password)
+  }, [signUpData]);
+
+
+  const signIn = useCallback(() => {
+  
+    connectUser(signInData.userName, signInData.password)
+  }, [signInData]);
+
+  const handleFormChange = (key, value) => {
+    setSignUpData((prevSignUpData) => ({
+      ...prevSignUpData,
+      [key]: value,
+    }));
   };
+
+  const handleSignInChange = (key, value) => {
+    setSignInData((prevSignInData) => ({
+      ...prevSignInData,
+      [key]: value,
+    }));
+  };
+
+  //Add in Sign in below for now. 
+  //Then extract a sign up and sign in to 2 seperate components
 
   return (
     <SafeAreaView style={styles.root}>
-      <View style={styles.inputContainer}>
-        {/* //change to email */}
-        {/* I think once the user makes an account ask for more info such as
-        full name, DOB, ...
-        sign up with just email and pw makes it lightweight */}
-        <TextInput
-          value={username}
-          onChangeText={setUsername}
-          placeholder="Username"
-          style={styles.input}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        {/* change to password */}
-        <TextInput
-          value={fullName}
-          onChangeText={setFullName}
-          placeholder="Full name"
-          style={styles.input}
-        />
-        {/* confirm pw. */}
-      </View>
-
+        {Object.entries(signUpData).map(([key, value]) => (
+        <View key={key} style={styles.inputContainer}>
+          <TextInput
+            value={value}
+            onChangeText={(newValue) => handleFormChange(key, newValue)}
+            // replaces camelcase
+            placeholder={key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase())}
+            secureTextEntry={key === "password" || key === "confirmPassword"}
+            textAlign="center"
+          />
+        </View>
+      ))}
       <Pressable onPress={signUp} style={styles.button}>
-        <Text>Sign up</Text>
+        <Text>Sign Up</Text>
+      </Pressable>
+      {Object.entries(signInData).map(([key, value]) => (
+        <View key={key} style={styles.inputContainer}>
+          <TextInput
+            value={value}
+            onChangeText={(newValue) => handleSignInChange(key, newValue)}
+            placeholder={key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase())}
+            secureTextEntry={key === "password"}
+            textAlign="center"
+          />
+        </View>
+      ))}
+      <Pressable onPress={signIn} style={styles.button}>
+        <Text>Sign In</Text>
       </Pressable>
     </SafeAreaView>
   );
@@ -73,7 +125,7 @@ const styles = StyleSheet.create({
   },
   input: {},
   button: {
-    backgroundColor: "#256CFF",
+    backgroundColor: COLORS.primary,
     padding: 15,
     alignItems: "center",
     marginVertical: 10,
