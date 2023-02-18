@@ -1,11 +1,12 @@
-import React from 'react'
+import { useState, useEffect, useContext } from "react";
 import { View, SafeAreaView, Text, Image, StatusBar, TouchableOpacity, Button } from 'react-native'
 import { useDispatch, useSelector } from "react-redux";
 import { selectBasketItems, selectBasketTotal, removeFromBasket } from "../redux/basketSlice";
 import { urlFor } from '../sanity';
-import { COLORS, SIZES, SHADOWS } from "../constants";
 import { XCircleIcon } from "react-native-heroicons/outline";
 import { useNavigation } from '@react-navigation/native';
+import AuthContext from "../contexts/Auth";
+import UserSearch from "../components/UserSearch";
 
 const Checkout = () => {
 
@@ -14,6 +15,8 @@ const Checkout = () => {
     // const items = useSelector(selectBasketItems);
     const dispatch = useDispatch();
     const navigation = useNavigation();
+    const { userId } = useContext(AuthContext);
+    console.log(userId)
 
     // const emptyBasket = () => {
     //     dispatch(removeFromBasket({ id: key }))
@@ -43,6 +46,9 @@ return (
                     // onPress={() => changeSingleCoupon(item.id)}
                     />
                 </TouchableOpacity>
+            </View>
+            <View>
+                <UserSearch />
             </View>
                 {items?.map((item) => (
                 <View 

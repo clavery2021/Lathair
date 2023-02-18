@@ -5,6 +5,9 @@ import { useChatContext } from "stream-chat-expo";
 import { COLORS } from "../constants";
 import AuthContext from "../contexts/Auth";
 
+//More work needs to be done in order to make sure pw is secure 
+//and checks to see if user exists.
+
 const SignIn = () => {
   const [signUpData, setSignUpData] = useState({
     userName: "",
@@ -26,19 +29,28 @@ const SignIn = () => {
 
   const { client } = useChatContext();
 
+  const connectNewUser = async (userName: string, password: string) => {
+    await client.connectUser(
+      {
+        id: userName,
+        password: password,
+      },
+      client.devToken(userName)
+    );
+    setUserId(userName);
+  };
+
   const connectUser = async (userName: string, password: string) => {
     await client.connectUser(
       {
         id: userName,
         password: password,
       },
-      //will need to change to jwt
       client.devToken(userName)
     );
-    //just setting the name atm but
-    //I will create an object so I can access email, name, etc anywhere in the app
     setUserId(userName);
   };
+
 
   const signUp = useCallback(() => {
   
@@ -51,12 +63,11 @@ const SignIn = () => {
       alert("Passwords do not match!");
       return;
     }
-    connectUser(signUpData.userName, signUpData.password)
+    connectNewUser(signUpData.userName, signUpData.password)
   }, [signUpData]);
 
 
   const signIn = useCallback(() => {
-  
     connectUser(signInData.userName, signInData.password)
   }, [signInData]);
 

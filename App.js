@@ -12,9 +12,9 @@ import { StreamChat } from "stream-chat";
 import SignIn from "./screens/SignIn";
 import AuthContext from "./contexts/Auth";
 import { Chat, OverlayProvider } from "stream-chat-expo";
+import { API_KEY } from "./utils/keyUtils";
 
 //.env File
-const API_KEY = "yqag5xdkt29k";
 const client = StreamChat.getInstance(API_KEY)
 
 const Stack = createNativeStackNavigator();
@@ -38,22 +38,6 @@ const App = () => {
   });
 
   const [userId, setUserId] = useState("");
-
-//   useEffect(() => {
-//     const connectUser = async () => {
-//       await client.connectUser(
-//         {
-//           id: 'iouAdmin',
-//           name: "Admin",
-//           image: 'https://i.imgur.com/fr9Jz14.png',
-//         },
-//         //Will need jwt token
-//         //Turn auth back on in stream dashboard
-//         client.devToken('iouAdmin')   
-//       );
-//       console.log("User connected");
-//   };
-// })
 
   useEffect(() => {
     return () => client.disconnectUser();
