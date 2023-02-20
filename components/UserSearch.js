@@ -5,7 +5,7 @@ import { API_KEY } from '../utils/keyUtils';
 
 const chatClient = StreamChat.getInstance(API_KEY);
 
-const UserSearch = () => {
+const UserSearch = ({ onSelectUser }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [receiver, setReceiver] = useState(null);
@@ -28,26 +28,27 @@ const UserSearch = () => {
 
   const handleUserSelect = (selectedUser) => {
     setReceiver(selectedUser);
+    onSelectUser(selectedUser);
   };
 
   return (
     <View>
-      <Text>Search for users:</Text>
-      <TextInput value={query} onChangeText={handleQueryChange} />
-      {receiver ? (
-        <Text>You have selected user: {receiver.id}</Text>
-      ) : (
-        <FlatList
-          data={results}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleUserSelect(item)}>
-              <Text>{item.id}</Text>
-            </TouchableOpacity>
-          )}
-        />
-      )}
-    </View>
+    <Text>Search for users:</Text>
+    <TextInput value={query} onChangeText={handleQueryChange} />
+    {receiver ? (
+      <Text>You have selected user: {receiver.id}</Text>
+    ) : (
+      <FlatList
+        data={results}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => handleUserSelect(item)}>
+            <Text>{item.id}</Text>
+          </TouchableOpacity>
+        )}
+      />
+    )}
+  </View>
   );
 };
 

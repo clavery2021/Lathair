@@ -7,29 +7,87 @@ import { XCircleIcon } from "react-native-heroicons/outline";
 import { useNavigation } from '@react-navigation/native';
 import AuthContext from "../contexts/Auth";
 import UserSearch from "../components/UserSearch";
+import sanityClient from "../sanity";
+import imageUrlBuilder from '@sanity/image-url';
 
 const Checkout = () => {
-
     const basketTotal = useSelector(selectBasketTotal)
     const items = useSelector(selectBasketItems);
-    // const items = useSelector(selectBasketItems);
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const { userId } = useContext(AuthContext);
-    console.log(userId)
+    const [receiver, setReceiver] = useState(null);
 
-    // const emptyBasket = () => {
-    //     dispatch(removeFromBasket({ id: key }))
-    //     navigation.navigate("Home")
-    // } 
+    const [couponDetails, setCouponDetails] = useState({
+        sender: "",
+        receiver: "",
+        image : "",
+    })
+
+    const handleUserSelect = (selectedUser) => {
+        setCouponDetails({
+          ...couponDetails,
+          receiver: selectedUser.id,
+        });
+      };
+
+      useEffect(() => {
+        if (receiver) {
+          setCouponDetails({
+            sender: userId,
+            receiver: receiver.id,
+            image: items[0].image.asset._ref,
+          });
+        }
+      }, [userId, receiver, items]);
+
+      const builder = imageUrlBuilder({
+        projectId: 'n3cx69lh',
+      });
+      
+      // Convert the asset reference URL to an image object
+      const imageObj = builder.image(couponDetails.image).auto('format');
+
+    const newCoupon = {
+        // _id: `coupon-${new Date().getTime()}`,
+        _type: 'couponSent',
+        sender: couponDetails.sender,
+        receiver: couponDetails.receiver,
+        image: imageObj,
+    }
+
+    const handlePlaceOrder = async () => {
+        if (couponDetails.receiver) {
+            //This needs extracted
+            const token = "skWcyp2782tUHFJD8YsiRsG55gm2hudj7D93CbJpISumYuldWHOilNBZuTZp4iwd0EbRcCbgNjxjTCMnYswR8FolWRywEqTa3kWZNryQpUcHRflkpcBFh2CCOZ2auT4IGC70bxMaSbYncvhSjwA8Nesk83aQEBq1OfFWdhc4gjBKvAUtJLIk";
+            const config = {
+              withCredentials: true,
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            };
+            
+            sanityClient.create(newCoupon, config)
+              .then(res => {
+                console.log(`Coupon Sent with id : ${res._id}`);
+              })
+              .catch(err => {
+                console.error('Error sending Coupon', err);
+              });
+        
+            console.log(couponDetails);
+            navigation.navigate("PreparingOrder");
+          } else {
+            alert("A receiver must be selected before placing an order.");
+          }
+      }
     
   const changeSingleCoupon = (key) => {
     dispatch(removeFromBasket({ id: key }))
-
     //This deleted each coupon 1 by 1 without going back?
     navigation.goBack
 }
-    
+
 return (
     <SafeAreaView className="flex-1 bg-white">
         <View className="flex-1 bg-gray-100">
@@ -48,7 +106,7 @@ return (
                 </TouchableOpacity>
             </View>
             <View>
-                <UserSearch />
+            <UserSearch onSelectUser={setReceiver} />
             </View>
                 {items?.map((item) => (
                 <View 
@@ -106,7 +164,7 @@ return (
                 </Text>
             </View>
             <TouchableOpacity 
-                    onPress={() => navigation.navigate("PreparingOrderScreen")}
+                    onPress={handlePlaceOrder}
                     className="rounded-lg bg-[#d95da5] p-4">
                     <Text className="text-center text-white text-lg font-bold">
                         Place Order
@@ -114,28 +172,7 @@ return (
             </TouchableOpacity>
         </View>
            
-
     </SafeAreaView>
     )
 }
-            export default Checkout
-            
-         {/* {items?.map((item, index) => (
-            <View key={index}>
-                <Text>Coupon Title : {item.title}</Text>
-                <View style={{ width: "100%", height: 250 }}>
-                    <Image
-                    source={{
-                        uri: urlFor(item.image.asset._ref).url()
-                    }}
-                    resizeMode="cover"
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        borderTopLeftRadius: SIZES.font,
-                        borderTopRightRadius: SIZES.font,
-                    }}
-                    />
-                </View>
-          </View>
-        ))} */}
+export default Checkout

@@ -1,8 +1,8 @@
 import {defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'sentCoupon',
-  title: 'Sent Coupon',
+  name: 'couponSent',
+  title: 'Coupon Sent',
   type: 'document',
   fields: [
     //Will be more descriptive in the future

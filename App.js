@@ -13,6 +13,7 @@ import SignIn from "./screens/SignIn";
 import AuthContext from "./contexts/Auth";
 import { Chat, OverlayProvider } from "stream-chat-expo";
 import { API_KEY } from "./utils/keyUtils";
+import PreparingOrderScreen from "./screens/PreparingOrderScreen";
 
 //.env File
 const client = StreamChat.getInstance(API_KEY)
@@ -62,6 +63,8 @@ const App = () => {
                       <Stack.Screen name="CouponTemplates" component={CouponTemplates}/>
                       <Stack.Screen name="Coupons" component={Coupons}/>
                       <Stack.Screen name="Checkout" component={Checkout}/>
+                      {/* Add something similar for transitioning from login */}
+                      <Stack.Screen name="PreparingOrder" component={PreparingOrderScreen}/>
                   </>
                   )}
               </Stack.Navigator>
