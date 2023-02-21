@@ -40,6 +40,7 @@
     "react-native-safe-area-context": "4.4.1",
     "react-native-screens": "^3.18.2",
     "react-native-svg": "13.4.0",
+    "react-native-uuid": "^2.0.1",
     "react-navigation-stack": "^2.10.4",
     "react-redux": "^8.0.5",
     "stream-chat": "^8.3.0",

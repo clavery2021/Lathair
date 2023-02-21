@@ -5,7 +5,13 @@ export default defineType({
   title: 'Coupon Sent',
   type: 'document',
   fields: [
-    //Will be more descriptive in the future
+    defineField({
+        name: 'id',
+        type: 'string',
+        title: 'ID',
+        description: 'Unique identifier for this document',
+        validation: Rule => Rule.required()
+      }),
     defineField({
         name: 'sender',
         title: 'Sender',

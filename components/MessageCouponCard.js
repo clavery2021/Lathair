@@ -23,6 +23,7 @@ const MessageCouponCard = ({ data }) => {
   const sendFreeCouponButton = () => {
     dispatch(singleCoupon({ id, title, image }))
     navigation.navigate("Checkout")
+    console.log(image)
 }
 
 // const addItemToBasket = () => {

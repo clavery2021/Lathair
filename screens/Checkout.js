@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import AuthContext from "../contexts/Auth";
 import UserSearch from "../components/UserSearch";
 import sanityClient from "../sanity";
-import imageUrlBuilder from '@sanity/image-url';
+import uuid from 'react-native-uuid';
 
 const Checkout = () => {
     const basketTotal = useSelector(selectBasketTotal)
@@ -17,43 +17,32 @@ const Checkout = () => {
     const navigation = useNavigation();
     const { userId } = useContext(AuthContext);
     const [receiver, setReceiver] = useState(null);
+    const newId = uuid.v4();
 
     const [couponDetails, setCouponDetails] = useState({
+        id: "",
         sender: "",
         receiver: "",
         image : "",
     })
 
-    const handleUserSelect = (selectedUser) => {
-        setCouponDetails({
-          ...couponDetails,
-          receiver: selectedUser.id,
-        });
-      };
-
       useEffect(() => {
         if (receiver) {
           setCouponDetails({
+            id: newId,
             sender: userId,
             receiver: receiver.id,
-            image: items[0].image.asset._ref,
+            image: items[0].image,
           });
         }
       }, [userId, receiver, items]);
 
-      const builder = imageUrlBuilder({
-        projectId: 'n3cx69lh',
-      });
-      
-      // Convert the asset reference URL to an image object
-      const imageObj = builder.image(couponDetails.image).auto('format');
-
     const newCoupon = {
-        // _id: `coupon-${new Date().getTime()}`,
-        _type: 'couponSent',
+        _type: 'sentCouponTest1',
+        id: couponDetails.id,
         sender: couponDetails.sender,
         receiver: couponDetails.receiver,
-        image: imageObj,
+        image: couponDetails.image,
     }
 
     const handlePlaceOrder = async () => {
@@ -69,7 +58,7 @@ const Checkout = () => {
             
             sanityClient.create(newCoupon, config)
               .then(res => {
-                console.log(`Coupon Sent with id : ${res._id}`);
+                console.log(`Coupon Sent with id : ${newId}`);
               })
               .catch(err => {
                 console.error('Error sending Coupon', err);
