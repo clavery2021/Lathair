@@ -14,13 +14,15 @@ import AuthContext from "./contexts/Auth";
 import { Chat, OverlayProvider } from "stream-chat-expo";
 import { API_KEY } from "./utils/keyUtils";
 import PreparingOrderScreen from "./screens/PreparingOrderScreen";
+import Landing from "./screens/Landing";
+
 
 //.env File
 const client = StreamChat.getInstance(API_KEY)
 
 const Stack = createNativeStackNavigator();
 
-const theme = {
+export const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
@@ -59,10 +61,10 @@ const App = () => {
                     <Stack.Screen name="SignIn" component={SignIn} />
                   ) : (
                     <>
-                      <Stack.Screen name="Home" component={Home}/>
+                      <Stack.Screen name="Landing" component={Landing}/>
                       <Stack.Screen name="CouponTemplates" component={CouponTemplates}/>
                       <Stack.Screen name="Coupons" component={Coupons}/>
-                      <Stack.Screen name="Checkout" component={Checkout}/>
+                      {/* <Stack.Screen name="Checkout" component={Checkout}/> */}
                       {/* Add something similar for transitioning from login */}
                       <Stack.Screen name="PreparingOrder" component={PreparingOrderScreen}/>
                   </>
