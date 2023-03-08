@@ -37,11 +37,14 @@ export const basketSlice = createSlice({
             }
           
             state.items = newBasket;
-          }
+          },
+          clearBasket: (state) => {
+            state.items = [];
+          },
     },
 });
 
-export const { addToBook, singleCoupon, removeFromBasket } = basketSlice.actions;
+export const { addToBook, singleCoupon, removeFromBasket, clearBasket } = basketSlice.actions;
 
 export const selectBasketItems = (state) => state.basket.items;
 

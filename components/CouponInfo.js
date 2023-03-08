@@ -60,7 +60,7 @@ export const People = () => {
 }
 
 //This could include price of those coupon temps
-export const CouponTemplatePrice = () => {
+export const CouponTemplatePrice = ( { text, price }) => {
     return (
       <View
         style={{
@@ -79,21 +79,21 @@ export const CouponTemplatePrice = () => {
             fontSize: SIZES.small,
             color: COLORS.primary
           }}>
-            Only 
+            {text} 
           </Text>
           <Text style = {{
             fontFamily: FONTS.semiBold,
             fontSize: SIZES.medium,
             color: COLORS.primary
           }}>
-            £0.99
+            {price}
           </Text>
     
       </View>
     )
 }
 
-export const SubInfo = () => {
+export const SubInfo = ( {text, price} ) => {
     return (
       <View style= {{
         width: '100%',
@@ -104,7 +104,7 @@ export const SubInfo = () => {
         justifyContent: 'space-between'
       }}>
         {/* <People /> */}
-        <CouponTemplatePrice />
+        <CouponTemplatePrice price={price} text={text}/>
       </View>
     )
 }

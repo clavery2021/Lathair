@@ -16,7 +16,6 @@ import { API_KEY } from "./utils/keyUtils";
 import PreparingOrderScreen from "./screens/PreparingOrderScreen";
 import Landing from "./screens/Landing";
 
-
 //.env File
 const client = StreamChat.getInstance(API_KEY)
 

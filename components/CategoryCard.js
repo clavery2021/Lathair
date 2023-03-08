@@ -31,7 +31,7 @@ const CategoryCard = ({ data }) => {
                     }}
                 />
             </View>
-            <SubInfo />
+            <SubInfo text={"Only"} price={"£0.99"}/>
             <View style={{ width: "100%", padding: SIZES.font }}>
                 <CouponTitle
                     title={data.title}

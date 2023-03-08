@@ -19,8 +19,6 @@ const CouponTemplates = ({ route }) => {
                 key={item.id}
                 data={item}
               />
-              
-              
             }
         />
         </View>
