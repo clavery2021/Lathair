@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { singleCoupon } from "../redux/basketSlice";
 import { useNavigation } from '@react-navigation/native';
 
-const MessageCouponCard = ({ data }) => {
+const MessageCouponCard = ({ data, message }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const MessageCouponCard = ({ data }) => {
   const title = data.title;
   const image = data.image;
 
-  const sendFreeCouponButton = () => {
+  const sendFreeCouponButton = (  ) => {
     dispatch(singleCoupon({ id, title, image }))
     navigation.navigate("Checkout")
     console.log(image)
@@ -42,13 +42,13 @@ const MessageCouponCard = ({ data }) => {
       marginRight: SIZES.base,
       ...SHADOWS.dark,
     }}>
-        <TouchableOpacity 
-          onPress={() => setIsPressed(!isPressed)}
-          style = {{
-            borderColor: "grey"
-          }}
-        >
-        <View style={{ width: "100%", height: 250 }}>
+      <TouchableOpacity 
+        onPress={() => setIsPressed(!isPressed)}
+        style = {{
+          borderColor: "grey"
+        }}
+      >
+        <View style={{width: "100%", height: 250 }}>
           <Image
             source={{
               uri: urlFor(data.image.asset._ref).url()
@@ -61,6 +61,28 @@ const MessageCouponCard = ({ data }) => {
               borderTopRightRadius: SIZES.font,
             }}
           />
+          {message !== '' && (
+            <View style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <Text style={{
+                fontSize: SIZES.large,
+                color: COLORS.white,
+                fontWeight: 'bold',
+                textAlign: 'center',
+                paddingHorizontal: SIZES.base,
+                backgroundColor: COLORS.primary,
+                borderRadius: SIZES.font,
+                overflow: 'hidden'
+              }}>{message}</Text>
+         </View>
+          )}
         </View>
         </TouchableOpacity>
 

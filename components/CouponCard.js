@@ -1,4 +1,4 @@
-import { View, Text, Image, StatusBar } from 'react-native'
+import { View, Text, Image, StatusBar, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { urlFor } from '../sanity';
 import { COLORS, SIZES, SHADOWS } from "../constants";
@@ -13,11 +13,12 @@ const CouponCard = ({ data }) => {
     <View style={{
       backgroundColor: COLORS.white,
       borderRadius: SIZES.font,
-      marginBottom: SIZES.extraLarge,
-      margin: SIZES.base,
-      ...SHADOWS.dark
+      // marginBottom: SIZES.extraLarge,
+      // margin: SIZES.base,
+      ...SHADOWS.dark,
+      width: "50%",
     }}>
-      <View style={{ width: "100%", height: 250 }}>
+      <TouchableOpacity onPress={() => navigation.navigate("Coupons", { data })}>
         <Image
           source={{
             uri: urlFor(data.image.asset._ref).url()
@@ -25,13 +26,13 @@ const CouponCard = ({ data }) => {
           resizeMode="cover"
           style={{
             width: "100%",
-            height: "100%",
-            borderTopLeftRadius: SIZES.font,
-            borderTopRightRadius: SIZES.font,
+            // height: "100%",
+            aspectRatio: 1,
+            borderRadius: SIZES.font,
           }}
         />
-      </View>
-      <SubInfo text={"Only"} price={"£0.99"}/>
+      </TouchableOpacity>
+      {/* <SubInfo text={"Only"} price={"£0.99"}/>
       <View style={{ width: "100%", padding: SIZES.font }}>
         <CouponTitle
           title={data.title}
@@ -51,7 +52,7 @@ const CouponCard = ({ data }) => {
             text="Select this template"
           />
         </View>
-      </View>
+      </View> */}
     </View>
   )
 }

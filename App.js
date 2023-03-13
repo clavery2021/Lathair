@@ -55,19 +55,26 @@ const App = () => {
             <Provider store={store}>
               <Stack.Navigator 
                 screenOptions={{ headerShown: false }}
-                initialRouteName="SignIn">
-                  {!userId ? (
-                    <Stack.Screen name="SignIn" component={SignIn} />
-                  ) : (
+                initialRouteName="Landing">
+                  {/* {!userId ? ( */}
+                    {/* <Stack.Screen name="SignIn" component={SignIn} /> */}
+                  {/* ) : ( */}
                     <>
                       <Stack.Screen name="Landing" component={Landing}/>
-                      <Stack.Screen name="CouponTemplates" component={CouponTemplates}/>
+                      <Stack.Screen 
+                        name="CouponTemplates" 
+                        component={CouponTemplates}
+                        options={{
+                          title: 'Coupon Templates',
+                          headerTitleAlign: 'center',
+                        }}
+                        />
                       <Stack.Screen name="Coupons" component={Coupons}/>
                       {/* <Stack.Screen name="Checkout" component={Checkout}/> */}
                       {/* Add something similar for transitioning from login */}
                       <Stack.Screen name="PreparingOrder" component={PreparingOrderScreen}/>
                   </>
-                  )}
+                  {/* )} */}
               </Stack.Navigator>
             </Provider>
           </Chat>

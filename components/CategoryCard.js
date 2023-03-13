@@ -1,4 +1,4 @@
-import { View, Image } from 'react-native'
+import { View, Image, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { urlFor } from '../sanity';
 import { COLORS, SIZES, SHADOWS } from "../constants";
@@ -17,21 +17,22 @@ const CategoryCard = ({ data }) => {
             margin: SIZES.base,
             ...SHADOWS.dark
         }}>
-            <View style={{ width: "100%", height: 280 }}>
-                <Image
-                    source={{
-                        uri: urlFor(data.image.asset._ref).url()
-                    }}
-                    resizeMode="cover"
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        borderTopLeftRadius: SIZES.font,
-                        borderTopRightRadius: SIZES.font,
-                    }}
-                />
-            </View>
-            <SubInfo text={"Only"} price={"£0.99"}/>
+             <TouchableOpacity onPress={() => navigation.navigate("CouponTemplates", { data })}>
+                <View style={{ width: "100%", height: 340 }}>
+                    <Image
+                        source={{
+                            uri: urlFor(data.image.asset._ref).url()
+                        }}
+                        resizeMode="cover"
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            borderRadius: SIZES.font,
+                        }}
+                    />
+                </View>
+            </TouchableOpacity>
+            {/* <SubInfo text={"Only"} price={"£0.99"}/>
             <View style={{ width: "100%", padding: SIZES.font }}>
                 <CouponTitle
                     title={data.title}
@@ -50,8 +51,8 @@ const CategoryCard = ({ data }) => {
                         handlePress={() => navigation.navigate("CouponTemplates", { data })}
                         text="Select Occasion"
                     />
-                </View>
-            </View>
+                </View> */}
+            {/* </View> */}
         </View>
     )
 }

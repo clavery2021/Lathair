@@ -1,15 +1,16 @@
-import { Text, View, SafeAreaView, FlatList, ScrollView, SectionList } from "react-native";
+import { useState } from "react";
+import { Text, View, SafeAreaView, FlatList, ScrollView, SectionList, TextInput, Button } from "react-native";
 
 import MessageCouponCard from "../components/MessageCouponCard";
 import { COLORS } from "../constants";
 import { urlFor } from '../sanity';
 
 const Coupons = ({ route } ) => {
-    //for testing 
     const { data } = route.params;
-    //Need x6 or so coupons of the same template
-    //Which includes a msg
-    //Custmo msg in the voucher
+    const [message, setMessage] = useState('');
+    const handleMessageChange = (text) => {
+      setMessage(text);
+    }
 
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -18,11 +19,11 @@ const Coupons = ({ route } ) => {
         <FlatList
             data={data.couponMessage}
             keyExtractor={(item) => item.id}
-            // numColumns={2}
             renderItem={({ item }) =>
               <MessageCouponCard
                 key={item.id}
                 data={item}
+                message={message}
               />
             }
         />
@@ -37,6 +38,18 @@ const Coupons = ({ route } ) => {
         }}>
           <View style={{ height: 300, backgroundColor: COLORS.primary }} />
           <View style={{ flex: 1, backgroundColor: COLORS.white }} />
+          <TextInput
+            style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+            onChangeText={handleMessageChange}
+            value={message}
+            placeholder="Enter your message"
+          />
+          <Button
+            title="Submit"
+            onPress={() => {
+              // Code to display message on top of coupon image goes here
+            }}
+          />
         </View>
       </View>
     </SafeAreaView>
