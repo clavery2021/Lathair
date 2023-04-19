@@ -3,11 +3,10 @@ import { useState, useEffect, useContext } from "react";
 import sanityClient from "../sanity";
 import SentCouponCard from "../components/sentCouponCard";
 import { COLORS } from "../constants";
-import AuthContext from "../contexts/Auth";
 
 const Sent = () => {
     const [sentCoupons, setSentCoupons] = useState([]);
-    const { userId } = useContext(AuthContext);
+    // const { userId } = useContext(AuthContext);
    
     useEffect(() => {
         sanityClient.fetch(

@@ -16,48 +16,9 @@ import Animated, {
   withTiming,
   withDelay,
   runOnJS,
-  withSequence,
-  withSpring
 } from "react-native-reanimated";
-import AuthContext from "../contexts/Auth";
-import { useChatContext } from "stream-chat-expo";
-
-
-//   return (
-//     <SafeAreaView style={styles.root}>
-//         {Object.entries(signUpData).map(([key, value]) => (
-//         <View key={key} style={styles.inputContainer}>
-//           <TextInput
-//             value={value}
-//             onChangeText={(newValue) => handleFormChange(key, newValue)}
-//             // replaces camelcase
-//             placeholder={key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase())}
-//             secureTextEntry={key === "password" || key === "confirmPassword"}
-//             textAlign="center"
-//           />
-//         </View>
-//       ))}
-//       <Pressable onPress={signUp} style={styles.button}>
-//         <Text>Sign Up</Text>
-//       </Pressable>
-//       {Object.entries(signInData).map(([key, value]) => (
-//         <View key={key} style={styles.inputContainer}>
-//           <TextInput
-//             value={value}
-//             onChangeText={(newValue) => handleSignInChange(key, newValue)}
-//             placeholder={key.replace(/([A-Z])/g, " $1").replace(/^./, str => str.toUpperCase())}
-//             secureTextEntry={key === "password"}
-//             textAlign="center"
-//           />
-//         </View>
-//       ))}
-//       <Pressable onPress={signIn} style={styles.button}>
-//         <Text>Sign In</Text>
-//       </Pressable>
-//     </SafeAreaView>
-//   );
-// };
-
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { app } from "../config/firebase";
 
 const SignIn = () => {
   const { height, width } = Dimensions.get("window");
@@ -65,46 +26,57 @@ const SignIn = () => {
   const formButtonScale = useSharedValue(1);
   const [isRegistering, setIsRegistering] = useState(false);
   const [loginData, setLoginData] = useState({
-    userName: "",
+    email: "",
     password: "",
   });
+  const auth = getAuth(app);
   
   const [registerData, setRegisterData] = useState({
     email: "",
-    userName: "",
     password: "",
     confirmPassword: "",
   });
-  
-  const { setUserId } = useContext(AuthContext);
-  const { client } = useChatContext();
 
     const validatePassword = (password) => {
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
     return passwordPattern.test(password);
   };
 
-  const connectNewUser = async (userName: string, password: string) => {
-    await client.connectUser(
-      {
-        id: userName,
-        password: password,
-      },
-      client.devToken(userName)
-    );
-    setUserId(userName);
+  const connectUser = async (email: string, password: string) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      // setUserId(user.uid);
+      console.log(user.uid);
+    } catch (error) {
+      console.log(error);
+    }
   };
-
-  const connectUser = async (userName: string, password: string) => {
-    await client.connectUser(
-      {
-        id: userName,
-        password: password,
-      },
-      client.devToken(userName)
-    );
-    setUserId(userName);
-    console.log(id)
+  
+  const connectNewUser = async (
+    email: string,
+    password: string
+  ) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log(userCredential)
+      const user = userCredential.user;
+      await user.updateProfile({
+        displayName: userName,
+      });
+      setUserId(user.uid);
+      console.log(user.uid);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleLoginChange = useCallback((key, newValue) => {
@@ -116,28 +88,15 @@ const SignIn = () => {
   }, []);
  
   const handleLogin = useCallback(() => {
-    connectUser(loginData.userName, loginData.password)
-    console.log(loginData);
+    connectUser(loginData.email, loginData.password);
   }, [loginData]);
-
+  
   const handleRegistration = useCallback(() => {
-    connectNewUser(registerData.userName, registerData.email, registerData.password);
+    connectNewUser(
+      registerData.email,
+      registerData.password
+    );
   }, [registerData]);
-  
-  
-// const signUp = useCallback(() => {
-  
-//   if (!validatePassword(signUpData.password)) {
-//     alert("Please enter a password that contains at least 8 characters, including at least one uppercase letter, one lowercase letter, and one number.");
-//     return;
-//   }
-  
-//   if (signUpData.password !== signUpData.confirmPassword) {
-//     alert("Passwords do not match!");
-//     return;
-//   }
-//   connectNewUser(signUpData.userName, signUpData.password)
-// }, [signUpData]);
 
   const imageAnimatedStyle = useAnimatedStyle(() => {
     const interpolation = interpolate(
@@ -234,17 +193,17 @@ return (
 
     <Animated.View style={[styles.formInputContainer, formAnimatedStyle]}>
       <TextInput
-        placeholder="User name"
+        placeholder="Email"
         placeholderTextColor="black"
         style={styles.textInput}
-        value={isRegistering ? registerData.userName : loginData.userName}
+        value={isRegistering ? registerData.email : loginData.email}
         onChangeText={(newValue) => isRegistering
-          ? handleRegisterChange("userName", newValue)
-          : handleLoginChange("userName", newValue)
+          ? handleRegisterChange("email", newValue)
+          : handleLoginChange("email", newValue)
         }
       />
 
-      {isRegistering && (
+      {/* {isRegistering && (
         <TextInput
           placeholder="Email"
           placeholderTextColor="black"
@@ -252,7 +211,7 @@ return (
           value={registerData.email}
           onChangeText={(newValue) => handleRegisterChange("email", newValue)}
         />
-      )}
+      )} */}
 
       <TextInput
         placeholder="Password"

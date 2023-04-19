@@ -5,7 +5,6 @@ import { selectBasketItems, selectBasketTotal, removeFromBasket, clearBasket } f
 import { urlFor } from '../sanity';
 import { XCircleIcon } from "react-native-heroicons/outline";
 import { useNavigation } from '@react-navigation/native';
-import AuthContext from "../contexts/Auth";
 import UserSearch from "../components/UserSearch";
 import sanityClient from "../sanity";
 import uuid from 'react-native-uuid';
@@ -15,7 +14,7 @@ const Checkout = () => {
     const items = useSelector(selectBasketItems);
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    const { userId } = useContext(AuthContext);
+    // const { userId } = useContext(AuthContext);
     const [receiver, setReceiver] = useState(null);
     const newId = uuid.v4();
 

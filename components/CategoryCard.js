@@ -1,13 +1,15 @@
-import { View, Image, TouchableOpacity } from 'react-native'
+import { View, Image, TouchableOpacity, Text } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { urlFor } from '../sanity';
 import { COLORS, SIZES, SHADOWS } from "../constants";
 import { CouponTitle, SubInfo } from './CouponInfo';
 
 import { RectButton } from './Button';
+import { useAuth } from '../contexts/useAuth';
 
 const CategoryCard = ({ data }) => {
     const navigation = useNavigation();
+    const { user } = useAuth();
 
     return (
         <View style={{
@@ -19,6 +21,7 @@ const CategoryCard = ({ data }) => {
         }}>
              <TouchableOpacity onPress={() => navigation.navigate("CouponTemplates", { data })}>
                 <View style={{ width: "100%", height: 340 }}>
+                    <Text>{user?.email}</Text>
                     <Image
                         source={{
                             uri: urlFor(data.image.asset._ref).url()

@@ -8,16 +8,10 @@ import Home from "./screens/Home";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import Checkout from "./screens/Checkout";
-import { StreamChat } from "stream-chat";
 import SignIn from "./screens/SignIn";
-import AuthContext from "./contexts/Auth";
-import { Chat, OverlayProvider } from "stream-chat-expo";
-import { API_KEY } from "./utils/keyUtils";
 import PreparingOrderScreen from "./screens/PreparingOrderScreen";
 import Landing from "./screens/Landing";
-
-//.env File
-const client = StreamChat.getInstance(API_KEY)
+import { useAuth } from "./contexts/useAuth";
 
 const Stack = createNativeStackNavigator();
 
@@ -39,26 +33,19 @@ const App = () => {
     InterLight: require("./assets/fonts/Inter-Light.ttf"),
   });
 
-  const [userId, setUserId] = useState("");
-
-  useEffect(() => {
-    return () => client.disconnectUser();
-  }, []);
+  const { user } = useAuth();
 
   if(!loaded) return null;
 
   return (
     <NavigationContainer theme={theme}>
-      <AuthContext.Provider value={{ userId, setUserId }}>
-        <OverlayProvider>
-          <Chat client={client}>
             <Provider store={store}>
               <Stack.Navigator 
                 screenOptions={{ headerShown: false }}
                 initialRouteName="Landing">
-                  {/* {!userId ? ( */}
-                    {/* <Stack.Screen name="SignIn" component={SignIn} /> */}
-                  {/* ) : ( */}
+                  {!user ? (
+                    <Stack.Screen name="SignIn" component={SignIn} />
+                   ) : ( 
                     <>
                       <Stack.Screen name="Landing" component={Landing}/>
                       <Stack.Screen 
@@ -74,12 +61,9 @@ const App = () => {
                       {/* Add something similar for transitioning from login */}
                       <Stack.Screen name="PreparingOrder" component={PreparingOrderScreen}/>
                   </>
-                  {/* )} */}
+                  )} 
               </Stack.Navigator>
-            </Provider>
-          </Chat>
-        </OverlayProvider>       
-      </AuthContext.Provider>
+            </Provider>    
     </NavigationContainer>
   );
 }

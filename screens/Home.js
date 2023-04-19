@@ -4,11 +4,15 @@ import { COLORS, NFTData } from "../constants";
 import FocusedStatusBar from "../components/FocusedStatusBar";
 import sanityClient from "../sanity";
 import CategoryCard from "../components/CategoryCard";
+import { useAuth } from "../contexts/useAuth";
 
 const Home = () => {
   const [couponCategories, setCouponCategories] = useState([]);
 
+  const { user } = useAuth();
+
   useEffect(() => {
+    console.log(user)
     sanityClient.fetch(
       `*[_type == "category"]{
         ...,
