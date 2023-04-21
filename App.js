@@ -12,6 +12,7 @@ import SignIn from "./screens/SignIn";
 import PreparingOrderScreen from "./screens/PreparingOrderScreen";
 import Landing from "./screens/Landing";
 import { useAuth } from "./contexts/useAuth";
+import CouponScreen from "./screens/CouponScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -55,7 +56,7 @@ const App = () => {
                           headerTitleAlign: 'center',
                         }}
                         />
-                      <Stack.Screen name="Coupons" component={Coupons}/>
+                      <Stack.Screen name="CouponScreen" component={CouponScreen}/>
                       {/* <Stack.Screen name="Checkout" component={Checkout}/> */}
                       {/* Add something similar for transitioning from login */}
                       <Stack.Screen name="PreparingOrder" component={PreparingOrderScreen}/>

@@ -18,7 +18,7 @@ const CouponCard = ({ data }) => {
       ...SHADOWS.dark,
       width: "50%",
     }}>
-      <TouchableOpacity onPress={() => navigation.navigate("Coupons", { data })}>
+      <TouchableOpacity onPress={() => navigation.navigate("CouponScreen", { data })}>
         <Image
           source={{
             uri: urlFor(data.image.asset._ref).url()
