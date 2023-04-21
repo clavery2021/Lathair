@@ -21,7 +21,6 @@ const CategoryCard = ({ data }) => {
         }}>
              <TouchableOpacity onPress={() => navigation.navigate("CouponTemplates", { data })}>
                 <View style={{ width: "100%", height: 340 }}>
-                    <Text>{user?.email}</Text>
                     <Image
                         source={{
                             uri: urlFor(data.image.asset._ref).url()

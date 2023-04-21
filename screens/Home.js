@@ -12,7 +12,6 @@ const Home = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    console.log(user)
     sanityClient.fetch(
       `*[_type == "category"]{
         ...,

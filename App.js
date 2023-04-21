@@ -20,7 +20,6 @@ export const theme = {
   colors: {
     ...DefaultTheme.colors,
     background: "transparent"
-
   }
 }
 
@@ -43,9 +42,9 @@ const App = () => {
               <Stack.Navigator 
                 screenOptions={{ headerShown: false }}
                 initialRouteName="Landing">
-                  {!user ? (
+               {/* {user ? (
                     <Stack.Screen name="SignIn" component={SignIn} />
-                   ) : ( 
+                   ) : (   */}
                     <>
                       <Stack.Screen name="Landing" component={Landing}/>
                       <Stack.Screen 
@@ -61,7 +60,7 @@ const App = () => {
                       {/* Add something similar for transitioning from login */}
                       <Stack.Screen name="PreparingOrder" component={PreparingOrderScreen}/>
                   </>
-                  )} 
+                {/* )}  */}
               </Stack.Navigator>
             </Provider>    
     </NavigationContainer>
