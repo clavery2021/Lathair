@@ -4,17 +4,29 @@ import { urlFor } from '../sanity';
 import { FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 import { useState } from "react";
-import { COLORS, SIZES, SHADOWS } from "../constants";
+import { COLORS, SIZES } from "../constants";
+import { FontSelection } from "../components/Font/FontSelection";
 
 const CouponScreen = ({ route } ) => {
     const navigation = useNavigation();
     const { data } = route?.params;
     const [message, setMessage] = useState('');
+
+    const [fontStyle, setFontStyle] = useState('normal');
     const handleMessageChange = (text) => {
       setMessage(text);
     }
 
-    console.log(data);
+    const handleFontStyleChange = (style) => {
+        setFontStyle(style);
+      }
+
+      const fontStyles = [
+        { label: 'Normal', value: 'normal' },
+        { label: 'Italic', value: 'italic' },
+        { label: 'Bold', value: 'bold' },
+        { label: 'Underline', value: 'underline' },
+      ];
 
     return (
         <SafeAreaView className="flex-1 bg-white relative">
@@ -28,27 +40,26 @@ const CouponScreen = ({ route } ) => {
                         className="w-full h-72 object-cover rounded-2xl"
                     />
                      {message !== '' && (
-            <View style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Text style={{
-                fontSize: SIZES.large,
-                color: COLORS.white,
-                fontWeight: 'bold',
-                textAlign: 'center',
-                paddingHorizontal: SIZES.base,
-                backgroundColor: COLORS.primary,
-                borderRadius: SIZES.font,
-                overflow: 'hidden'
-              }}>{message}</Text>
-         </View>
-          )}
+                        <View style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                        }}>
+                        <Text style={{
+                            fontSize: SIZES.extraLarge,
+                            color: COLORS.white,
+                            font: fontStyle,
+                            textAlign: 'center',
+                            paddingHorizontal: SIZES.base,
+                            borderRadius: SIZES.font,
+                            overflow: 'hidden'
+                        }}>{message}</Text>
+                    </View>
+                    )}
                     
 
                     <View className="absolute flex-row inset-x-0 top-5 justify-between px-6">
@@ -121,27 +132,28 @@ const CouponScreen = ({ route } ) => {
 
                 <Text className="mt-4 tracking-wide text-[16px] font-semibold text-[#97A6AF]">
                     {/* {data?.description} */}
-                    This is a description about sending a valetines day coupon. Write custom message
+                    This is a description about sending a valetines day coupon. 
+                    To create a coupon book write a message, then select the heart to add a coupon. You can then write other messages and click the same button to add to book.
+                    To send a one off coupon select the send coupon button
                 </Text>
 
-                <View className=" space-y-2 mt-4 bg-gray-100 rounded-2xl px-4 py-2">
+                <View className=" space-y-2 mt-8 bg-gray-100 rounded-2xl px-4 py-2">
                     <View className="items-center flex-row space-x-6">
                     <TextInput
-                        style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+                        style={{ height: 40 }}
                         onChangeText={handleMessageChange}
                         value={message}
                         placeholder="Enter your message"
                     />
                     </View>
                     </View>
-               
-                    <View className="mt-4 px-4 py-4 rounded-lg bg-[#d95da5] items-center justify-center mb-12">
-                        <Text className="text-3xl font-semibold uppercase tracking-wider text-gray-100">
-                        Create Coupon
+                    <FontSelection fontStyles={fontStyles} selectedFontStyle={fontStyle} onFontStyleChange={handleFontStyleChange} />
+                    <View className="mt-4 px-3 py-3 rounded-lg bg-[#d95da5] items-center justify-center mb-12">
+                        <Text className="text-1xl font-semibold uppercase tracking-wider text-gray-100">
+                        Send Coupon
                         </Text>
                     </View>
-            
-
+        
             </ScrollView>
         </SafeAreaView>
     );
