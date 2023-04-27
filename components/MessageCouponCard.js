@@ -20,7 +20,7 @@ const MessageCouponCard = ({ data, message }) => {
   const title = data.title;
   const image = data.image;
 
-  const sendFreeCouponButton = (  ) => {
+  const sendFreeCouponButton = ( ) => {
     dispatch(singleCoupon({ id, title, image }))
     navigation.navigate("Checkout")
     console.log(image)

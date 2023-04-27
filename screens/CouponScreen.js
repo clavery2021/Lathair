@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useState } from "react";
 import { COLORS, SIZES } from "../constants";
 import { FontSelection } from "../components/Font/FontSelection";
+import Carousel, { Pagination } from 'react-native-snap-carousel-v4';
 
 const CouponScreen = ({ route } ) => {
     const navigation = useNavigation();
@@ -27,6 +28,48 @@ const CouponScreen = ({ route } ) => {
         { label: 'Bold', value: 'bold' },
         { label: 'Underline', value: 'underline' },
       ];
+      
+      // Define the list of hints for the carousel
+const hints = [
+    'Coffee date',
+    'Dinner date',
+    'Cinema date',
+    'Adventure',
+    "I will wash your car"
+  ];
+  
+  // Define a state to keep track of the active slide index
+  const [activeSlide, setActiveSlide] = useState(0);
+  
+  // Define a function to render each hint item in the carousel
+  const renderHintItem = ({ item }) => (
+    <View style={{ alignItems: 'center' }}>
+      <Text style={{ fontSize: 20 }}>{item}</Text>
+    </View>
+  );
+  
+// Define a function to render the pagination dots
+const renderPagination = () => (
+    <Pagination
+      dotsLength={hints.length}
+      activeDotIndex={activeSlide}
+      containerStyle={{ paddingVertical: 10 }}
+      dotStyle={{
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        marginHorizontal: 8,
+        backgroundColor: '#d95da5'
+      }}
+      inactiveDotStyle={{
+        backgroundColor: '#e5e5e5'
+      }}
+      inactiveDotOpacity={0.4}
+      inactiveDotScale={0.6}
+    />
+  );
+  
+
 
     return (
         <SafeAreaView className="flex-1 bg-white relative">
@@ -34,7 +77,7 @@ const CouponScreen = ({ route } ) => {
                 <View className="relative bg-white shadow-lg">
                     <Image
                         source={{
-                        uri: urlFor(data?.image.asset._ref).url()
+                        uri: urlFor(data?.image?.asset?._ref).url()
                         }}
                         
                         className="w-full h-72 object-cover rounded-2xl"
@@ -71,7 +114,7 @@ const CouponScreen = ({ route } ) => {
                         </TouchableOpacity>
 
                         <TouchableOpacity className="w-10 h-10 rounded-md items-center justify-center bg-[#d95da5]">
-                            <FontAwesome5 name="heartbeat" size={24} color="#fff" />
+                            <FontAwesome5 name="book" size={24} color="#fff" />
                         </TouchableOpacity>
                     </View>
 
@@ -132,10 +175,18 @@ const CouponScreen = ({ route } ) => {
 
                 <Text className="mt-4 tracking-wide text-[16px] font-semibold text-[#97A6AF]">
                     {/* {data?.description} */}
-                    This is a description about sending a valetines day coupon. 
-                    To create a coupon book write a message, then select the heart to add a coupon. You can then write other messages and click the same button to add to book.
-                    To send a one off coupon select the send coupon button
+                    Hit send coupon by selecting "Send Coupon" or select the heart to add to a book 
                 </Text>
+                <View style={{ marginTop: 20 }}>
+                    <Carousel
+                        data={hints}
+                        renderItem={renderHintItem}
+                        sliderWidth={300}
+                        itemWidth={200}
+                        onSnapToItem={(index) => setActiveSlide(index)}
+                    />
+                    {renderPagination()}
+                </View>
 
                 <View className=" space-y-2 mt-8 bg-gray-100 rounded-2xl px-4 py-2">
                     <View className="items-center flex-row space-x-6">

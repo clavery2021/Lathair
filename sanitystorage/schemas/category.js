@@ -26,5 +26,8 @@ export default defineType({
       type: 'array',
       of: [{ type: 'reference', to: [{ type: 'coupon' }] }]
     })
+    // Need to have a field for date of occasion
+    // This will allow the homepage data to display the next occasions
+    // data first 
   ]
 })
