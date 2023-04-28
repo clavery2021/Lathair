@@ -42,12 +42,6 @@ export default defineType({
       type: 'image',
     }),
     defineField({
-      name: 'couponMessage',
-      title: 'Coupon With Message',
-      type: 'array',
-      of: [{ type: 'reference', to: [{ type: 'couponMessage' }] }]
-    }),
-    defineField({
       name: 'category',
       title: 'Category',
       type: 'reference',

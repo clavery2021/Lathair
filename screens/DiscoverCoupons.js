@@ -5,12 +5,14 @@ import { ScrollView } from "react-native-gesture-handler";
 import sanityClient, { urlFor } from "../sanity";
 import CouponMenuContainer from "../components/CouponContainer.js/CouponContainer";
 import CouponItemContainer from "../components/CouponContainer.js/CouponItemContainer";
+import { useAuth } from "../contexts/useAuth";
 
 const DiscoverCoupons = () => {
     const [couponCategories, setCouponCategories] = useState([]);
     const [coupons, setCoupons] = useState([]);
     const navigation = useNavigation()
     const [selectedCategory, setSelectedCategory] = useState();
+    const { user } = useAuth();
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -69,6 +71,7 @@ const DiscoverCoupons = () => {
         setSelectedCategory(title);
       };
 
+      console.log(user);
 return (
     <SafeAreaView className="flex-1 bg-white relative">
         <View className="flex-row items-center justify-between px-8">

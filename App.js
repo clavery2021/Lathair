@@ -39,33 +39,26 @@ const App = () => {
 
   return (
     <NavigationContainer theme={theme}>
-            <Provider store={store}>
-              <Stack.Navigator 
-                screenOptions={{ headerShown: false }}
-                initialRouteName="Landing">
-               {/* {user ? (
-                    <Stack.Screen name="SignIn" component={SignIn} />
-                   ) : (   */}
-                    <>
-                      <Stack.Screen name="Landing" component={Landing}/>
-                      <Stack.Screen 
-                        name="CouponTemplates" 
-                        component={CouponTemplates}
-                        options={{
-                          title: 'Coupon Templates',
-                          headerTitleAlign: 'center',
-                        }}
-                        />
-                      <Stack.Screen name="CouponScreen" component={CouponScreen}/>
-                      {/* <Stack.Screen name="Checkout" component={Checkout}/> */}
-                      {/* Add something similar for transitioning from login */}
-                      <Stack.Screen name="PreparingOrder" component={PreparingOrderScreen}/>
-                  </>
-                {/* )}  */}
-              </Stack.Navigator>
-            </Provider>    
+      <Provider store={store}>
+        {!user ? (
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Sign In" component={SignIn} />
+          </Stack.Navigator>
+        ) : (
+          <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Landing">
+            <Stack.Screen name="Landing" component={Landing} />
+            <Stack.Screen name="CouponTemplates" component={CouponTemplates} options={{ title: 'Coupon Templates', headerTitleAlign: 'center' }} />
+            <Stack.Screen name="CouponScreen" component={CouponScreen} />
+            {/* <Stack.Screen name="Checkout" component={Checkout} /> */}
+            {/* Add something similar for transitioning from login */}
+            <Stack.Screen name="PreparingOrder" component={PreparingOrderScreen} />
+          </Stack.Navigator>
+        )}
+      </Provider>
     </NavigationContainer>
   );
+
 }
+
 
 export default App;

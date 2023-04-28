@@ -2,9 +2,12 @@ import { View, Text, TouchableOpacity, Image } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../contexts/useAuth";
 
 const CouponItemContainer = ({ imageSrc, title, description, data }) => {
   const navigation = useNavigation();
+  const { user } = useAuth();
+  console.log(user);
   
   return (
     <TouchableOpacity

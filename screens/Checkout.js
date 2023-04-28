@@ -3,58 +3,42 @@ import { View, SafeAreaView, Text, Image, StatusBar, TouchableOpacity, Button } 
 import { useDispatch, useSelector } from "react-redux";
 import { selectBasketItems, selectBasketTotal, removeFromBasket, clearBasket } from "../redux/basketSlice";
 import { urlFor } from '../sanity';
-import { XCircleIcon } from "react-native-heroicons/outline";
 import { useNavigation } from '@react-navigation/native';
 import UserSearch from "../components/UserSearch";
 import sanityClient from "../sanity";
 import uuid from 'react-native-uuid';
+import { useAuth } from '../contexts/useAuth';
 
 const Checkout = () => {
     const basketTotal = useSelector(selectBasketTotal)
     const items = useSelector(selectBasketItems);
     const dispatch = useDispatch();
     const navigation = useNavigation();
-    // const { userId } = useContext(AuthContext);
     const [receiver, setReceiver] = useState(null);
     const newId = uuid.v4();
-
-    const [couponDetails, setCouponDetails] = useState({
-        id: "",
-        sender: "",
-        receiver: "",
-        image : "",
-    })
-
-      useEffect(() => {
-        if (receiver) {
-          setCouponDetails({
-            id: newId,
-            sender: userId,
-            receiver: receiver.id,
-            image: items[0]?.image,
-          });
-        }
-      }, [userId, receiver, items]);
+    const { user } = useAuth();
+    const userId = user?.uid;
 
     const newCoupon = {
-        _type: 'sentCouponTest1',
-        id: couponDetails.id,
-        sender: couponDetails.sender,
-        receiver: couponDetails.receiver,
-        image: couponDetails.image,
+        _type: 'sendCoupon',
+        id: items[0]?.id,
+        sender: userId,
+        receiver: "Receiver",
+        image: items[0]?.image,
+        message: items[0]?.message
     }
 
     const handlePlaceOrder = async () => {
-        if (couponDetails.receiver) {
-            //This needs extracted
-            const token = "skWcyp2782tUHFJD8YsiRsG55gm2hudj7D93CbJpISumYuldWHOilNBZuTZp4iwd0EbRcCbgNjxjTCMnYswR8FolWRywEqTa3kWZNryQpUcHRflkpcBFh2CCOZ2auT4IGC70bxMaSbYncvhSjwA8Nesk83aQEBq1OfFWdhc4gjBKvAUtJLIk";
+        // if (couponDetails.receiver) {
+        //     //This needs extracted
+             const token = "skWcyp2782tUHFJD8YsiRsG55gm2hudj7D93CbJpISumYuldWHOilNBZuTZp4iwd0EbRcCbgNjxjTCMnYswR8FolWRywEqTa3kWZNryQpUcHRflkpcBFh2CCOZ2auT4IGC70bxMaSbYncvhSjwA8Nesk83aQEBq1OfFWdhc4gjBKvAUtJLIk";
             const config = {
               withCredentials: true,
               headers: {
                 Authorization: `Bearer ${token}`
               }
             };
-            
+            console.log(newCoupon);
             sanityClient.create(newCoupon, config)
               .then(res => {
                 dispatch(clearBasket());
@@ -63,12 +47,10 @@ const Checkout = () => {
               .catch(err => {
                 console.error('Error sending Coupon', err);
               });
-        
-            console.log(couponDetails);
             navigation.navigate("PreparingOrder");
-          } else {
-            alert("A receiver must be selected before placing an order.");
-          }
+        //   } else {
+        //     alert("A receiver must be selected before placing an order.");
+        //   }
       }
     
   const changeSingleCoupon = (key) => {

@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, TouchableOpacity } from 'react-native';
-import { StreamChat } from "stream-chat";
 import { API_KEY } from '../utils/keyUtils';
-
-const chatClient = StreamChat.getInstance(API_KEY);
+// import auth from '@react-native-firebase/auth';
 
 const UserSearch = ({ onSelectUser }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [receiver, setReceiver] = useState(null);
 
-  const searchUsers = async () => {
-    if (query.trim() === '') {
-      setResults([]);
-      return;
-    }
-
-    const response = await chatClient.queryUsers({ id: { $autocomplete: query } }, {});
-    setResults(response.users);
-  };
+  // const searchUsers = async () => {
+  //   if (query.trim() === '') {
+  //     setResults([]);
+  //     return;
+  //   }
+  
+  //   const { data: users } = await auth()
+  //     .listUsers(1000, { email: query })
+  //     .catch((error) => {
+  //       console.log('Error listing users:', error);
+  //       return { data: [] };
+  //     });
+  
+  //   setResults(users);
+  // };
 
   const handleQueryChange = (text) => {
     setQuery(text);

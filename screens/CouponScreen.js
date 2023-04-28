@@ -4,14 +4,26 @@ import { urlFor } from '../sanity';
 import { FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { singleCoupon } from "../redux/basketSlice";
 import { COLORS, SIZES } from "../constants";
 import { FontSelection } from "../components/Font/FontSelection";
 import Carousel, { Pagination } from 'react-native-snap-carousel-v4';
 
 const CouponScreen = ({ route } ) => {
+    const dispatch = useDispatch();
     const navigation = useNavigation();
     const { data } = route?.params;
     const [message, setMessage] = useState('');
+    
+    const id = data._id;
+    const title = data.title;
+    const image = data.image;
+  
+    const sendFreeCouponButton = ( ) => {
+      dispatch(singleCoupon({ id, title, image, message}))
+      navigation.navigate("Checkout")
+  }
 
     const [fontStyle, setFontStyle] = useState('normal');
     const handleMessageChange = (text) => {
@@ -30,14 +42,15 @@ const CouponScreen = ({ route } ) => {
       ];
       
       // Define the list of hints for the carousel
-const hints = [
-    'Coffee date',
-    'Dinner date',
-    'Cinema date',
-    'Adventure',
-    "I will wash your car"
-  ];
-  
+      //Need to make schema : Text, occasion ...
+    const hints = [
+        'Coffee date',
+        'Dinner date',
+        'Cinema date',
+        'Adventure',
+        "I will wash your car"
+    ];
+    
   // Define a state to keep track of the active slide index
   const [activeSlide, setActiveSlide] = useState(0);
   
@@ -199,11 +212,11 @@ const renderPagination = () => (
                     </View>
                     </View>
                     <FontSelection fontStyles={fontStyles} selectedFontStyle={fontStyle} onFontStyleChange={handleFontStyleChange} />
-                    <View className="mt-4 px-3 py-3 rounded-lg bg-[#d95da5] items-center justify-center mb-12">
+                    <TouchableOpacity onPress={sendFreeCouponButton} className="mt-4 px-3 py-3 rounded-lg bg-[#d95da5] items-center justify-center mb-12">
                         <Text className="text-1xl font-semibold uppercase tracking-wider text-gray-100">
                         Send Coupon
                         </Text>
-                    </View>
+                    </TouchableOpacity>
         
             </ScrollView>
         </SafeAreaView>

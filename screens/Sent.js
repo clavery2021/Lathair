@@ -1,17 +1,18 @@
 import { Text, View, SafeAreaView, FlatList } from "react-native";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import sanityClient from "../sanity";
 import SentCouponCard from "../components/sentCouponCard";
 import { COLORS } from "../constants";
 
 const Sent = () => {
     const [sentCoupons, setSentCoupons] = useState([]);
-    // const { userId } = useContext(AuthContext);
    
+       // && sender == $userId] 
+
     useEffect(() => {
         sanityClient.fetch(
-        `*[_type == "sentCouponTest1" && sender == $userId] {...}`,
-            { userId }
+        `*[_type == "sentCouponTest1" 
+        {...}`,
         ).then((data) => {
             setSentCoupons(data);
         });
