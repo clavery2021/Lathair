@@ -1,55 +1,25 @@
-import { Text, View, SafeAreaView, FlatList, Image, TouchableOpacity } from "react-native";
-import { useState, useEffect, useLayoutEffect } from "react";
-import sanityClient from "../sanity";
-import SentCouponCard from "../components/sentCouponCard";
-import { COLORS, SIZES } from "../constants";
-import { useAuth } from '../contexts/useAuth';
-import { useNavigation } from "@react-navigation/native";
-import { ScrollView } from "react-native-gesture-handler";
+import { useState, useEffect, useContext } from "react";
+import { View, SafeAreaView, Text, Image, StatusBar, TouchableOpacity, Button, ScrollView } from 'react-native'
+import { useDispatch, useSelector } from "react-redux";
+import { removeCoupon, selectCouponBookItems } from '../redux/couponBookSlice';
 import { urlFor } from '../sanity';
+import { COLORS, SIZES } from "../constants";
 import { FontAwesome, FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 
-const Sent = () => {
-  const [sentCoupons, setSentCoupons] = useState([]);
-  const { user } = useAuth();
-  const userId = user?.uid;
-  const navigation = useNavigation();
+const CouponBookScreen = () => { 
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-        headerShown: false,
-    });
-  }, []);
+    const items = useSelector(selectCouponBookItems);
+    const dispatch = useDispatch();
+    
+    const removeCouponFromBook = (couponIndex) => {
+        dispatch(removeCoupon(couponIndex));
+      };
 
-  //This will eventually be make a call the user table
-  //It will then reference coupons by user Id
-    useEffect(() => {
-      if (!userId) return;
-        sanityClient.fetch(
-          `*[_type == "sendCoupon" && sender == "${userId}"]
-           {...}`
-        ).then((data) => {
-            setSentCoupons(data);
-        });
-        
-      }, [userId]);
-
-return (
-<SafeAreaView className="flex-1 bg-white relative">
-  <View className="px-6 mt-6 space-y-3">
-     {/* If no coupons sent show this + animation */}
-      {/* <Text className="text-[#3C6072] text-[35px]">Share the love</Text> */}
-      <Text className="text-[#3C6072] text-[35px]">Sent Coupons</Text>
-  
-      <Text className="text-[#3C6072] text-base">
-        Check if your loved ones have cashed in their coupons
-      </Text>
-  </View>
-
-{/* Needs te be extracted to a component */}
-<View className="px-4 py-4">
-  <ScrollView horizontal className="relative bg-white shadow-lg">
-      {sentCoupons?.map((coupon) => (
+    return (
+        <SafeAreaView className="flex-1 bg-white">
+        <View className="px-4 py-4">
+            <ScrollView horizontal className="relative bg-white shadow-lg">
+      {items?.map((coupon, index) => (
         
         <View key={coupon._id}>
           <Image
@@ -82,11 +52,25 @@ return (
                         }}>{coupon.message}</Text>
                     </View>
                     )}
+
+                        <View className="absolute flex-row inset-x-0 top-5 justify-between px-6">
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate("Landing")}
+                            className="w-10 h-10 rounded-md items-center justify-center bg-white"
+                        >
+                            <FontAwesome5 name="chevron-left" size={24} color="#d95da5" />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => removeCouponFromBook(index)}>
+                            <FontAwesome5 name="trash" size={24} color="#fff" />
+                        </TouchableOpacity>
+                    </View>
+
                     {/* Maybe have arrows so ppl know they have more coupons */}
                     <View className="absolute flex-row inset-x-0 bottom-5 justify-between px-6">
                         <View className="flex-row space-x-2 items-center">
                             <Text className="text-[12px] font-bold text-gray-100">
-                                Hello
+                            {index + 1}  / {items.length}
                             </Text>
                         </View>
 
@@ -101,14 +85,8 @@ return (
     </ScrollView>
 
   </View>
-  <View className="px-6 space-y-3">
-    {/* If no books sent show this + animation */}
-        {/* <Text className="text-[#3C6072] text-[35px]">Share the love</Text> */}
-        <Text className="text-[#3C6072] text-base">
-        Books
-      </Text>
+        </SafeAreaView>
+    )
+}
 
-      </View>
-</SafeAreaView>
-)}
-export default Sent;
+export default CouponBookScreen;

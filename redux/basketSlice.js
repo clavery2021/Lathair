@@ -11,19 +11,9 @@ export const basketSlice = createSlice({
         singleCoupon: (state, action) => {
             state.items = [...state.items, action.payload];
         },
-        // singleCoupon: (state, action) => {
-        //     return {
-        //         ...state,
-        //         items: [...state.items, action.payload]
-        //     };
-        // },
-        // addToBook: (state, action) => {
-        //     state.items = [...state.items, action.payload];
-        // },
         removeFromBasket: (state, action) => {
             const index = state.items.findIndex(
-            //   (item) => item.id === action.payload.id
-            (item) => item.id === action.payload.id
+              (item) => item.id === action.payload.id
             );
           
             let newBasket = [...state.items];
@@ -44,7 +34,7 @@ export const basketSlice = createSlice({
     },
 });
 
-export const { addToBook, singleCoupon, removeFromBasket, clearBasket } = basketSlice.actions;
+export const {singleCoupon, removeFromBasket, clearBasket } = basketSlice.actions;
 
 export const selectBasketItems = (state) => state.basket.items;
 

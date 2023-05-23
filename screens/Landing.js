@@ -1,5 +1,4 @@
 import Checkout from "./Checkout"
-import Home from "./Home"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Recevied from "./Received";
 import Sent from "./Sent";

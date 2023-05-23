@@ -6,9 +6,11 @@ import { useNavigation } from '@react-navigation/native';
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { singleCoupon } from "../redux/basketSlice";
+import { addCoupon, selectCouponBookItems } from "../redux/couponBookSlice";
 import { COLORS, SIZES } from "../constants";
 import { FontSelection } from "../components/Font/FontSelection";
 import Carousel, { Pagination } from 'react-native-snap-carousel-v4';
+import BookIcon from "../components/BookIcon/BookIcon";
 
 const CouponScreen = ({ route } ) => {
     const dispatch = useDispatch();
@@ -19,11 +21,20 @@ const CouponScreen = ({ route } ) => {
     const id = data._id;
     const title = data.title;
     const image = data.image;
+
+    const couponBookItems = useSelector(selectCouponBookItems);
+    const numItemsInCouponBook = couponBookItems ? couponBookItems.length : 0;
   
     const sendFreeCouponButton = ( ) => {
       dispatch(singleCoupon({ id, title, image, message}))
       navigation.navigate("Checkout")
   }
+  
+  const addToCouponBookButton = () => {
+    dispatch(addCoupon({ id, title, image, message }));
+    setMessage(''); // Clear the message input field
+    console.log(id, title, image, message)
+  };
 
     const [fontStyle, setFontStyle] = useState('normal');
     const handleMessageChange = (text) => {
@@ -82,8 +93,6 @@ const renderPagination = () => (
     />
   );
   
-
-
     return (
         <SafeAreaView className="flex-1 bg-white relative">
             <ScrollView className="flex-1 px-4 py-6">
@@ -117,7 +126,6 @@ const renderPagination = () => (
                     </View>
                     )}
                     
-
                     <View className="absolute flex-row inset-x-0 top-5 justify-between px-6">
                         <TouchableOpacity
                             onPress={() => navigation.navigate("Landing")}
@@ -126,7 +134,9 @@ const renderPagination = () => (
                             <FontAwesome5 name="chevron-left" size={24} color="#d95da5" />
                         </TouchableOpacity>
 
-                        <TouchableOpacity className="w-10 h-10 rounded-md items-center justify-center bg-[#d95da5]">
+                        <TouchableOpacity 
+                        onPress={() => navigation.navigate("CouponBookScreen")} 
+                        className="w-10 h-10 rounded-md items-center justify-center bg-[#d95da5]">
                             <FontAwesome5 name="book" size={24} color="#fff" />
                         </TouchableOpacity>
                     </View>
@@ -215,6 +225,12 @@ const renderPagination = () => (
                     <TouchableOpacity onPress={sendFreeCouponButton} className="mt-4 px-3 py-3 rounded-lg bg-[#d95da5] items-center justify-center mb-12">
                         <Text className="text-1xl font-semibold uppercase tracking-wider text-gray-100">
                         Send Coupon
+                        </Text>
+                    </TouchableOpacity>
+                    {/* Testing */}
+                    <TouchableOpacity onPress={addToCouponBookButton} className="mt-4 px-3 py-3 rounded-lg bg-[#d95da5] items-center justify-center mb-12">
+                        <Text className="text-1xl font-semibold uppercase tracking-wider text-gray-100">
+                        Add to book
                         </Text>
                     </TouchableOpacity>
         

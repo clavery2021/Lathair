@@ -1,8 +1,8 @@
 import {defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'coupon',
-  title: 'Coupon',
+  name: 'couponBook',
+  title: 'Coupon Book',
   type: 'document',
   fields: [
     defineField({
@@ -32,25 +32,21 @@ export default defineType({
       type: 'boolean',
     }),
     defineField({
-      name: 'date',
-      title: 'Date',
-      type: 'date',
-    }),
-    defineField({
-      name: 'image',
-      title: 'Image',
+      name: 'coverImage',
+      title: 'Cover Image',
       type: 'image',
-    }),
-    defineField({
-      name: 'usedCoupon',
-      title: 'Used Coupon',
-      type: 'boolean',
     }),
     defineField({
       name: 'category',
       title: 'Category',
       type: 'reference',
       to: [{ type: 'category' }]
-    })
+    }),
+    defineField({
+        name: 'coupon',
+        title: 'coupon',
+        type: 'reference',
+        to: [{ type: 'coupon' }]
+      })
   ],
 })
