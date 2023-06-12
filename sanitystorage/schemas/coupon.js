@@ -42,11 +42,6 @@ export default defineType({
       type: 'image',
     }),
     defineField({
-      name: 'usedCoupon',
-      title: 'Used Coupon',
-      type: 'boolean',
-    }),
-    defineField({
       name: 'message',
       title: 'Message',
       type: 'string',
