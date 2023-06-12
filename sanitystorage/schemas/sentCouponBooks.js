@@ -35,20 +35,10 @@ export default defineType({
           type: 'date',
         }),
     defineField({
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-    }),
-    defineField({
-      name: 'message',
-      title: 'Message',
-      type: 'string',
-    }),
-    defineField({
-        name: 'couponBook',
-        title: 'Coupon Book',
-        type: 'reference',
-        to: [{ type: 'couponBook' }]
+        name: 'sendCoupon',
+        title: 'Coupon',
+        type: 'array',
+        of: [{ type: 'sendCoupon' }] 
       }),
   ],
 })

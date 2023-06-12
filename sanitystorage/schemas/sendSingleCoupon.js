@@ -34,17 +34,10 @@ export default defineType({
       title: 'Message',
       type: 'string',
     }),
-    // defineField({
-    //     name: 'coupon',
-    //     title: 'Coupon',
-    //     type: 'reference',
-    //     to: [{ type: 'coupon' }]
-    //   }),
-      // defineField({
-      //   name: 'singleCouponMessage',
-      //   title: 'Coupon Message',
-      //   type: 'reference',
-      //   to: [{ type: 'singleCouponMessage' }]
-      // })
+    defineField({
+      name: 'usedCoupon',
+      title: 'Used Coupon',
+      type: 'boolean',
+    }),
   ],
 })

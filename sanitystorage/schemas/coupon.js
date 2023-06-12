@@ -47,6 +47,11 @@ export default defineType({
       type: 'boolean',
     }),
     defineField({
+      name: 'message',
+      title: 'Message',
+      type: 'string',
+    }),
+    defineField({
       name: 'category',
       title: 'Category',
       type: 'reference',

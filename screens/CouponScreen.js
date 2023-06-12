@@ -12,48 +12,48 @@ import { FontSelection } from "../components/Font/FontSelection";
 import Carousel, { Pagination } from 'react-native-snap-carousel-v4';
 import BookIcon from "../components/BookIcon/BookIcon";
 
-const CouponScreen = ({ route } ) => {
+const CouponScreen = ({ route }) => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const { data } = route?.params;
     const [message, setMessage] = useState('');
-    
+
     const id = data._id;
     const title = data.title;
     const image = data.image;
 
     const couponBookItems = useSelector(selectCouponBookItems);
     const numItemsInCouponBook = couponBookItems ? couponBookItems.length : 0;
-  
-    const sendFreeCouponButton = ( ) => {
-      dispatch(singleCoupon({ id, title, image, message}))
-      navigation.navigate("Checkout")
-  }
-  
-  const addToCouponBookButton = () => {
-    dispatch(addCoupon({ id, title, image, message }));
-    setMessage(''); // Clear the message input field
-    console.log(id, title, image, message)
-  };
+
+    const sendFreeCouponButton = () => {
+        dispatch(singleCoupon({ id, title, image, message }))
+        navigation.navigate("Checkout")
+    }
+
+    const addToCouponBookButton = () => {
+        dispatch(addCoupon({ id, title, image, message }));
+        setMessage(''); // Clear the message input field
+        console.log(id, title, image, message)
+    };
 
     const [fontStyle, setFontStyle] = useState('normal');
     const handleMessageChange = (text) => {
-      setMessage(text);
+        setMessage(text);
     }
 
     const handleFontStyleChange = (style) => {
         setFontStyle(style);
-      }
+    }
 
-      const fontStyles = [
+    const fontStyles = [
         { label: 'Normal', value: 'normal' },
         { label: 'Italic', value: 'italic' },
         { label: 'Bold', value: 'bold' },
         { label: 'Underline', value: 'underline' },
-      ];
-      
-      // Define the list of hints for the carousel
-      //Need to make schema : Text, occasion ...
+    ];
+
+    // Define the list of hints for the carousel
+    //Need to make schema : Text, occasion ...
     const hints = [
         'Coffee date',
         'Dinner date',
@@ -61,71 +61,71 @@ const CouponScreen = ({ route } ) => {
         'Adventure',
         "I will wash your car"
     ];
-    
-  // Define a state to keep track of the active slide index
-  const [activeSlide, setActiveSlide] = useState(0);
-  
-  // Define a function to render each hint item in the carousel
-  const renderHintItem = ({ item }) => (
-    <View style={{ alignItems: 'center' }}>
-      <Text style={{ fontSize: 20 }}>{item}</Text>
-    </View>
-  );
-  
-// Define a function to render the pagination dots
-const renderPagination = () => (
-    <Pagination
-      dotsLength={hints.length}
-      activeDotIndex={activeSlide}
-      containerStyle={{ paddingVertical: 10 }}
-      dotStyle={{
-        width: 10,
-        height: 10,
-        borderRadius: 5,
-        marginHorizontal: 8,
-        backgroundColor: '#d95da5'
-      }}
-      inactiveDotStyle={{
-        backgroundColor: '#e5e5e5'
-      }}
-      inactiveDotOpacity={0.4}
-      inactiveDotScale={0.6}
-    />
-  );
-  
+
+    // Define a state to keep track of the active slide index
+    const [activeSlide, setActiveSlide] = useState(0);
+
+    // Define a function to render each hint item in the carousel
+    const renderHintItem = ({ item }) => (
+        <View style={{ alignItems: 'center' }}>
+            <Text style={{ fontSize: 20 }}>{item}</Text>
+        </View>
+    );
+
+    // Define a function to render the pagination dots
+    const renderPagination = () => (
+        <Pagination
+            dotsLength={hints.length}
+            activeDotIndex={activeSlide}
+            containerStyle={{ paddingVertical: 10 }}
+            dotStyle={{
+                width: 10,
+                height: 10,
+                borderRadius: 5,
+                marginHorizontal: 8,
+                backgroundColor: '#d95da5'
+            }}
+            inactiveDotStyle={{
+                backgroundColor: '#e5e5e5'
+            }}
+            inactiveDotOpacity={0.4}
+            inactiveDotScale={0.6}
+        />
+    );
+
     return (
         <SafeAreaView className="flex-1 bg-white relative">
             <ScrollView className="flex-1 px-4 py-6">
                 <View className="relative bg-white shadow-lg">
                     <Image
                         source={{
-                        uri: urlFor(data?.image?.asset?._ref).url()
+                            uri: urlFor(data?.image?.asset?._ref).url()
                         }}
-                        
+
                         className="w-full h-72 object-cover rounded-2xl"
                     />
-                     {message !== '' && (
+                    {message !== '' && (
                         <View style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        alignItems: 'center',
-                        justifyContent: 'center'
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            alignItems: 'center',
+                            justifyContent: 'center'
                         }}>
-                        <Text style={{
-                            fontSize: SIZES.extraLarge,
-                            color: COLORS.white,
-                            font: fontStyle,
-                            textAlign: 'center',
-                            paddingHorizontal: SIZES.base,
-                            borderRadius: SIZES.font,
-                            overflow: 'hidden'
-                        }}>{message}</Text>
-                    </View>
+                            <Text style={{
+                                fontSize: SIZES.extraLarge,
+                                color: COLORS.white,
+                                font: fontStyle,
+                                textAlign: 'center',
+                                paddingHorizontal: SIZES.base,
+                                borderRadius: SIZES.font,
+                                overflow: 'hidden'
+                            }}>{message}</Text>
+                        </View>
                     )}
-                    
+
                     <View className="absolute flex-row inset-x-0 top-5 justify-between px-6">
                         <TouchableOpacity
                             onPress={() => navigation.navigate("Landing")}
@@ -134,9 +134,9 @@ const renderPagination = () => (
                             <FontAwesome5 name="chevron-left" size={24} color="#d95da5" />
                         </TouchableOpacity>
 
-                        <TouchableOpacity 
-                        onPress={() => navigation.navigate("CouponBookScreen")} 
-                        className="w-10 h-10 rounded-md items-center justify-center bg-[#d95da5]">
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate("CouponBookScreen")}
+                            className="w-10 h-10 rounded-md items-center justify-center bg-[#d95da5]">
                             <FontAwesome5 name="book" size={24} color="#fff" />
                         </TouchableOpacity>
                     </View>
@@ -150,7 +150,7 @@ const renderPagination = () => (
 
                         <View className="px-2 py-1 rounded-md bg-[#d95da5]">
                             <Text className="text-gray-100">
-                                15 days To Go 
+                                15 days To Go
                             </Text>
                         </View>
                     </View>
@@ -169,19 +169,19 @@ const renderPagination = () => (
                 </View>
 
                 <View className="mt-4 flex-row items-center justify-between ml-4 mr-8">
-                        <View className=" flex-row items-center space-x-2">
+                    <View className=" flex-row items-center space-x-2">
                         <View className="w-12 h-12 rounded-2xl bg-red-100 items-center justify-center shadow-md">
                             <FontAwesome name="star" size={24} color="#D58574" />
                         </View>
                         <View>
                             <Text className="text-[#515151]">
                                 {/* {data?.rating} */}
-                                </Text>
+                            </Text>
                             <Text className="text-[#515151]">Coupon Ratings</Text>
                         </View>
-                        </View>
-    
-                        <View className=" flex-row items-center space-x-4">
+                    </View>
+
+                    <View className=" flex-row items-center space-x-4">
                         <View className="w-12 h-12 rounded-2xl bg-red-100 items-center justify-center shadow-md">
                             <MaterialIcons name="attach-money" size={24} color="#D58574" />
                         </View>
@@ -189,16 +189,16 @@ const renderPagination = () => (
                             <Text className="text-[#515151]">
                                 {/* {data?.price_level} */}
                                 Free
-                                </Text>
+                            </Text>
                             <Text className="text-[#515151]">Price Level</Text>
                         </View>
-                        </View>
-                
+                    </View>
+
                 </View>
 
                 <Text className="mt-4 tracking-wide text-[16px] font-semibold text-[#97A6AF]">
                     {/* {data?.description} */}
-                    Hit send coupon by selecting "Send Coupon" or select the heart to add to a book 
+                    Hit send coupon by selecting "Send Coupon" or select the heart to add to a book
                 </Text>
                 <View style={{ marginTop: 20 }}>
                     <Carousel
@@ -213,27 +213,27 @@ const renderPagination = () => (
 
                 <View className=" space-y-2 mt-8 bg-gray-100 rounded-2xl px-4 py-2">
                     <View className="items-center flex-row space-x-6">
-                    <TextInput
-                        style={{ height: 40 }}
-                        onChangeText={handleMessageChange}
-                        value={message}
-                        placeholder="Enter your message"
-                    />
+                        <TextInput
+                            style={{ height: 40 }}
+                            onChangeText={handleMessageChange}
+                            value={message}
+                            placeholder="Enter your message"
+                        />
                     </View>
-                    </View>
-                    <FontSelection fontStyles={fontStyles} selectedFontStyle={fontStyle} onFontStyleChange={handleFontStyleChange} />
-                    <TouchableOpacity onPress={sendFreeCouponButton} className="mt-4 px-3 py-3 rounded-lg bg-[#d95da5] items-center justify-center mb-12">
-                        <Text className="text-1xl font-semibold uppercase tracking-wider text-gray-100">
+                </View>
+                <FontSelection fontStyles={fontStyles} selectedFontStyle={fontStyle} onFontStyleChange={handleFontStyleChange} />
+                <TouchableOpacity onPress={sendFreeCouponButton} className="mt-4 px-3 py-3 rounded-lg bg-[#d95da5] items-center justify-center mb-12">
+                    <Text className="text-1xl font-semibold uppercase tracking-wider text-gray-100">
                         Send Coupon
-                        </Text>
-                    </TouchableOpacity>
-                    {/* Testing */}
-                    <TouchableOpacity onPress={addToCouponBookButton} className="mt-4 px-3 py-3 rounded-lg bg-[#d95da5] items-center justify-center mb-12">
-                        <Text className="text-1xl font-semibold uppercase tracking-wider text-gray-100">
+                    </Text>
+                </TouchableOpacity>
+                {/* Testing */}
+                <TouchableOpacity onPress={addToCouponBookButton} className="mt-4 px-3 py-3 rounded-lg bg-[#d95da5] items-center justify-center mb-12">
+                    <Text className="text-1xl font-semibold uppercase tracking-wider text-gray-100">
                         Add to book
-                        </Text>
-                    </TouchableOpacity>
-        
+                    </Text>
+                </TouchableOpacity>
+
             </ScrollView>
         </SafeAreaView>
     );
