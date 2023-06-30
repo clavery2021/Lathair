@@ -8,6 +8,7 @@ import UserSearch from "../components/UserSearch";
 import sanityClient from "../sanity";
 import uuid from 'react-native-uuid';
 import { useAuth } from '../contexts/useAuth';
+import { SANITY_EDIT_KEY } from "../utils/keyUtils";
 
 const Checkout = () => {
     const basketTotal = useSelector(selectBasketTotal)
@@ -30,12 +31,10 @@ const Checkout = () => {
 
     const handlePlaceOrder = async () => {
         // if (couponDetails.receiver) {
-        //     //This needs extracted
-             const token = "skWcyp2782tUHFJD8YsiRsG55gm2hudj7D93CbJpISumYuldWHOilNBZuTZp4iwd0EbRcCbgNjxjTCMnYswR8FolWRywEqTa3kWZNryQpUcHRflkpcBFh2CCOZ2auT4IGC70bxMaSbYncvhSjwA8Nesk83aQEBq1OfFWdhc4gjBKvAUtJLIk";
             const config = {
               withCredentials: true,
               headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${SANITY_EDIT_KEY}`
               }
             };
             console.log(newCoupon);

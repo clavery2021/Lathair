@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useState } from "react";
+import sanityClient from "../sanity";
 import {
   StyleSheet,
   Text,
@@ -19,6 +20,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { app } from "../config/firebase";
+import { SANITY_EDIT_KEY } from "../utils/keyUtils";
 
 const SignIn = () => {
   const { height, width } = Dimensions.get("window");
@@ -67,18 +69,37 @@ const SignIn = () => {
         email,
         password
       );
+
       console.log(userCredential)
       const user = userCredential.user;
+
       await user.updateProfile({
         displayName: userName,
       });
+
+         // Step 3: Create user in Sanity.io
+    const token = "skWcyp2782tUHFJD8YsiRsG55gm2hudj7D93CbJpISumYuldWHOilNBZuTZp4iwd0EbRcCbgNjxjTCMnYswR8FolWRywEqTa3kWZNryQpUcHRflkpcBFh2CCOZ2auT4IGC70bxMaSbYncvhSjwA8Nesk83aQEBq1OfFWdhc4gjBKvAUtJLIk";
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const newUser = {
+      _type: 'user',
+      email: email,
+      name: "Cormac",
+    };
+
+    await sanityClient.create(newUser, config);
+
       setUserId(user.uid);
       console.log(user.uid);
     } catch (error) {
       console.log(error);
     }
   };
-
+  
   const handleLoginChange = useCallback((key, newValue) => {
     setLoginData((prev) => ({ ...prev, [key]: newValue }));
   }, []);

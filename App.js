@@ -1,7 +1,6 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from 'expo-font';
-import React from "react";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import SignIn from "./screens/SignIn";
@@ -31,6 +30,7 @@ const App = () => {
   });
 
   const { user } = useAuth();
+
 
   if(!loaded) return null;
 
