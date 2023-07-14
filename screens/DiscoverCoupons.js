@@ -41,7 +41,6 @@ const DiscoverCoupons = () => {
       if (!selectedCategory) {
         // If no category is selected, fetch coupons for the first category in the collection
         const firstCategory = couponCategories[0]?.title;
-        console.log(firstCategory)
         setSelectedCategory(firstCategory);
         sanityClient
           .fetch(
@@ -71,7 +70,6 @@ const DiscoverCoupons = () => {
         setSelectedCategory(title);
       };
 
-      console.log(user);
 return (
     <SafeAreaView className="flex-1 bg-white relative">
         <View className="flex-row items-center justify-between px-8">

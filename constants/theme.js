@@ -15,6 +15,8 @@ export const SIZES = {
   medium: 16,
   large: 18,
   extraLarge: 24,
+  usedCoupon: 40,
+  usedCouponBanner: 150,
 };
 
 export const FONTS = {
