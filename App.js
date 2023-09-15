@@ -9,6 +9,7 @@ import Landing from "./screens/Landing";
 import { useAuth } from "./contexts/useAuth";
 import CouponScreen from "./screens/CouponScreen";
 import CouponBookScreen from "./screens/CouponBookScreen";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,10 +32,12 @@ const App = () => {
 
   const { user } = useAuth();
 
+  console.log("test")
 
   if(!loaded) return null;
 
   return (
+    // <GestureHandlerRootView>
     <NavigationContainer theme={theme}>
       <Provider store={store}>
         {!user ? (
@@ -53,6 +56,7 @@ const App = () => {
         )}
       </Provider>
     </NavigationContainer>
+  // </GestureHandlerRootView>
   );
 
 }

@@ -20,6 +20,7 @@ const DiscoverCoupons = () => {
         });
     }, []);
 
+
     // on button click query set(category.occassion)
     // loop over this occasions coupons 
     useEffect(() => {

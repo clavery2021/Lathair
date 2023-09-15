@@ -9,6 +9,7 @@ import sanityClient from "../sanity";
 import uuid from 'react-native-uuid';
 import { useAuth } from '../contexts/useAuth';
 import { SANITY_EDIT_KEY } from "../utils/keyUtils";
+import { isRejected } from "@reduxjs/toolkit";
 
 const Checkout = () => {
     const basketTotal = useSelector(selectBasketTotal)
@@ -26,7 +27,8 @@ const Checkout = () => {
         sender: userId,
         receiver: "Receiver",
         image: items[0]?.image,
-        message: items[0]?.message
+        message: items[0]?.message,
+        categoryTitle : items[0]?.message
     }
 
     const handlePlaceOrder = async () => {
@@ -68,10 +70,10 @@ return (
             <UserSearch onSelectUser={setReceiver} />
             {items?.map((item) => (
                 <View className="flex-row items-center space-x-4 px-4 py-3 bg-white my-5" key={item.id}>
-                    <Image source={{ uri: urlFor(item.image.asset._ref).url() }} className="h-7 w-7 bg-gray-300 p-4 rounded-full" />
-                    <Text className="flex-1">{item.title}</Text>
+                    <Image source={{ uri: urlFor(item.image.asset._ref).url() }} className="h-20 w-20 bg-gray-300 p-4 rounded-md" />
+                    <Text className="flex-1 text-center">{item.message}</Text>
                     <TouchableOpacity onPress={() => changeSingleCoupon(item.id)}>
-                        <Text className="text-[#d95da5]">Change</Text>
+                        <Text className="text-[#d95da5]">Remove</Text>
                     </TouchableOpacity>
                 </View>
             ))}

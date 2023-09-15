@@ -7,7 +7,6 @@ import { useAuth } from "../../contexts/useAuth";
 const CouponItemContainer = ({ imageSrc, title, description, data }) => {
   const navigation = useNavigation();
   const { user } = useAuth();
-  console.log(user);
   
   return (
     <TouchableOpacity

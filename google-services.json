@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "448424004466",
+    "project_id": "iathair",
+    "storage_bucket": "iathair.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448424004466:android:749a7eb0c80d18fdf7abeb",
+        "android_client_info": {
+          "package_name": "clavery.iou"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448424004466-rt7ftg4rea5gt634de9gum2t0p8t3huu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBK1W89isZHhiHjpNl91FMWkFyDprlKa6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448424004466-rt7ftg4rea5gt634de9gum2t0p8t3huu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
