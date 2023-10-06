@@ -38,7 +38,7 @@ const App = () => {
     // <GestureHandlerRootView>
     <NavigationContainer theme={theme}>
       <Provider store={store}>
-        {user ? (
+        {!user ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Sign In" component={SignIn} />
           </Stack.Navigator>
