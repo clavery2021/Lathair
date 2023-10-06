@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from "react";
-import sanityClient from "../sanity";
+import { connectNewUser, connectUser } from "./utils/signIn/signInUtils";
 import {
   StyleSheet,
   Text,
@@ -18,9 +18,6 @@ import Animated, {
   withDelay,
   runOnJS,
 } from "react-native-reanimated";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
-import { app } from "../config/firebase";
-import { SANITY_EDIT_KEY } from "../utils/keyUtils";
 
 const SignIn = () => {
   const { height, width } = Dimensions.get("window");
@@ -31,74 +28,13 @@ const SignIn = () => {
     email: "",
     password: "",
   });
-  const auth = getAuth(app);
   
   const [registerData, setRegisterData] = useState({
     email: "",
+    userName: "",
     password: "",
     confirmPassword: "",
   });
-
-    const validatePassword = (password) => {
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
-    return passwordPattern.test(password);
-  };
-
-  const connectUser = async (email: string, password: string) => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      // setUserId(user.uid);
-      console.log(user.uid);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  
-  const connectNewUser = async (
-    email: string,
-    password: string
-  ) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-
-      console.log(userCredential)
-      const user = userCredential.user;
-
-      await user.updateProfile({
-        displayName: userName,
-      });
-
-         // Step 3: Create user in Sanity.io
-    const token = "skWcyp2782tUHFJD8YsiRsG55gm2hudj7D93CbJpISumYuldWHOilNBZuTZp4iwd0EbRcCbgNjxjTCMnYswR8FolWRywEqTa3kWZNryQpUcHRflkpcBFh2CCOZ2auT4IGC70bxMaSbYncvhSjwA8Nesk83aQEBq1OfFWdhc4gjBKvAUtJLIk";
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    const newUser = {
-      _type: 'user',
-      email: email,
-      name: "Cormac",
-    };
-
-    await sanityClient.create(newUser, config);
-
-      setUserId(user.uid);
-      console.log(user.uid);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   
   const handleLoginChange = useCallback((key, newValue) => {
     setLoginData((prev) => ({ ...prev, [key]: newValue }));
@@ -109,14 +45,11 @@ const SignIn = () => {
   }, []);
  
   const handleLogin = useCallback(() => {
-    connectUser(loginData.email, loginData.password);
+    connectUser({email: loginData.email, password: loginData.password});
   }, [loginData]);
   
   const handleRegistration = useCallback(() => {
-    connectNewUser(
-      registerData.email,
-      registerData.password
-    );
+    connectNewUser({email: registerData.email, userName: registerData.userName, password: registerData.password});
   }, [registerData]);
 
   const imageAnimatedStyle = useAnimatedStyle(() => {
@@ -224,15 +157,15 @@ return (
         }
       />
 
-      {/* {isRegistering && (
+      {isRegistering && (
         <TextInput
-          placeholder="Email"
+          placeholder="User Name"
           placeholderTextColor="black"
           style={styles.textInput}
-          value={registerData.email}
-          onChangeText={(newValue) => handleRegisterChange("email", newValue)}
+          value={registerData.userName}
+          onChangeText={(newValue) => handleRegisterChange("userName", newValue)}
         />
-      )} */}
+      )}
 
       <TextInput
         placeholder="Password"

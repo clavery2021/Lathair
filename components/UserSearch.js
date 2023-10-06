@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, TouchableOpacity } from 'react-native';
 import { API_KEY } from '../utils/keyUtils';
-import auth from '@react-native-firebase/auth';
+import { getAuth } from 'firebase/auth';
+import { app } from "../config/firebase";
 
 const UserSearch = ({ onSelectUser }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
   const [receiver, setReceiver] = useState(null);
+  const auth = getAuth(app);
 
   const searchUsers = async () => {
     if (query.trim() === '') {

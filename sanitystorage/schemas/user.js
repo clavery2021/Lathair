@@ -1,4 +1,5 @@
 import { defineType, defineField } from 'sanity';
+import { v4 as uuidv4 } from 'uuid'; 
 
 export default defineType({
   name: 'user',
@@ -6,16 +7,22 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'name',
-      title: 'Name',
+      name: 'userId',
+      title: 'UUID',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+
+    }),
+    defineField({
+      name: 'userName',
+      title: 'User Name',
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'password',
-      title: 'Password',
+      name: 'fullName',
+      title: 'Full Name',
       type: 'string',
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'email',
@@ -23,16 +30,25 @@ export default defineType({
       type: 'string',
       validation: (Rule) => Rule.required().email(),
     }),
+    //form to fill in on account page to get more user info
     defineField({
-      name: 'role',
-      title: 'Role',
+      name: 'birthday',
+      title: 'Birthday',
       type: 'string',
-      options: {
-        //need custom one for customer
-        //give all users admin role for now.
-        list: ['admin', 'editor', 'viewer'],
-      },
-      validation: (Rule) => Rule.required(),
+      // validation: (Rule) => Rule.required().email(),
     }),
+    //friend list, sent / received coupons
+
+    // defineField({
+    //   name: 'role',
+    //   title: 'Role',
+    //   type: 'string',
+    //   options: {
+    //     //need custom one for customer
+    //     //give all users admin role for now.
+    //     list: ['admin', 'editor', 'viewer'],
+    //   },
+    //   validation: (Rule) => Rule.required(),
+    // }),
   ],
 });

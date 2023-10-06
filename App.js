@@ -32,15 +32,13 @@ const App = () => {
 
   const { user } = useAuth();
 
-  console.log("test")
-
   if(!loaded) return null;
 
   return (
     // <GestureHandlerRootView>
     <NavigationContainer theme={theme}>
       <Provider store={store}>
-        {!user ? (
+        {user ? (
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Sign In" component={SignIn} />
           </Stack.Navigator>
